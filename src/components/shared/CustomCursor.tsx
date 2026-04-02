@@ -1,6 +1,2 @@
-"use client";
-
-export function CustomCursor() {
-  // TODO: Implement custom cursor with framer-motion
-  return null;
-}
+// Deprecated — use @/components/layout/CustomCursor instead
+export { CustomCursor } from "@/components/layout/CustomCursor";

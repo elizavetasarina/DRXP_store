@@ -11,7 +11,17 @@
       "Bash(cp -r drxp-temp/src .)",
       "Bash(cp -r drxp-temp/public .)",
       "Bash(rm -rf drxp-temp)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(find \"/c/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(auth\\)\" \"/c/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(account\\)\" -name \"*.tsx\" -o -name \"*.ts\")",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(content\\)/**)",
+      "Bash(done)",
+      "Bash(ls \"C:/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(content\\)/lookbook/\")",
+      "Bash(ls \"C:/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(content\\)/journal/\")",
+      "Bash(ls \"C:/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(content\\)/about/\")",
+      "Bash(ls \"C:/Users/Назар/Documents/GitHub/DRXP_store/src/app/\\(content\\)/contact/\")",
+      "Bash(npm run:*)"
     ]
   }
 }
