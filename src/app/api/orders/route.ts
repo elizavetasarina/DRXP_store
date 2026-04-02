@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       )
     }
+    
 
     const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
     const shipping = 0
