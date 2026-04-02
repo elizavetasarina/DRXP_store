@@ -81,7 +81,7 @@ export function ProductCard({ product }: Props) {
         </motion.div>
 
         {/* Sale badge */}
-        {product.compareAtPrice && (
+        {product.comparePrice && (
           <span className="absolute top-3 left-3 text-[10px] tracking-widest uppercase bg-white text-black px-2 py-0.5">
             Sale
           </span>
@@ -94,9 +94,9 @@ export function ProductCard({ product }: Props) {
         </h3>
         <div className="flex items-center gap-2">
           <span className="text-sm text-white/50">{formatPrice(product.price)}</span>
-          {product.compareAtPrice && (
+          {product.comparePrice && (
             <span className="text-xs text-white/30 line-through">
-              {formatPrice(product.compareAtPrice)}
+              {formatPrice(product.comparePrice)}
             </span>
           )}
         </div>

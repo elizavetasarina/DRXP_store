@@ -5,7 +5,7 @@ import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { PRODUCTS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 
-const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
+const featured = PRODUCTS.filter((p) => p.isFeatured).slice(0, 4);
 
 export function FeaturedCollection() {
   return (

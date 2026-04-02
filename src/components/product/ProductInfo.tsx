@@ -14,9 +14,9 @@ export function ProductInfo({ product }: Props) {
 
       <div className="flex items-center gap-3 mt-4">
         <span className="text-xl text-white">{formatPrice(product.price)}</span>
-        {product.compareAtPrice && (
+        {product.comparePrice && (
           <span className="text-sm text-white/30 line-through">
-            {formatPrice(product.compareAtPrice)}
+            {formatPrice(product.comparePrice)}
           </span>
         )}
       </div>
