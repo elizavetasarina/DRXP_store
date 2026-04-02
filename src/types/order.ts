@@ -1,23 +1,18 @@
 export type OrderStatus =
-  | "pending"
-  | "confirmed"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-  | "refunded";
+  | "PENDING"
+  | "PAID"
+  | "PROCESSING"
+  | "SHIPPED"
+  | "DELIVERED"
+  | "CANCELLED";
 
 export interface OrderItem {
   id: string;
   orderId: string;
   productId: string;
-  productName: string;
   variantId: string;
-  size: string;
-  color: string;
   quantity: number;
   price: number;
-  imageUrl: string;
 }
 
 export interface ShippingAddress {
@@ -37,11 +32,13 @@ export interface Order {
   items: OrderItem[];
   status: OrderStatus;
   subtotal: number;
-  shippingCost: number;
+  discount: number;
+  shipping: number;
   total: number;
+  promoCodeId?: string | null;
   shippingAddress: ShippingAddress;
-  trackingNumber?: string;
-  notes?: string;
+  paymentMethod?: string | null;
+  paymentId?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

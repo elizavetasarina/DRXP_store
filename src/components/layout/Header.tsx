@@ -9,11 +9,13 @@ import { useWishlistStore } from "@/store/wishlistStore";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { toggleMenu, openCart } = useUIStore();
   const cartItems = useCartStore((s) => s.getTotalItems());
   const wishlistCount = useWishlistStore((s) => s.items.length);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -53,7 +55,7 @@ export function Header() {
           </button>
           <Link href="/account/wishlist" className="relative text-white/70 hover:text-white transition-colors">
             <Heart className="w-5 h-5" strokeWidth={1.5} />
-            {wishlistCount > 0 && (
+            {mounted && wishlistCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
                 {wishlistCount}
               </span>
@@ -61,7 +63,7 @@ export function Header() {
           </Link>
           <button onClick={openCart} className="relative text-white/70 hover:text-white transition-colors" aria-label="Open cart">
             <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-            {cartItems > 0 && (
+            {mounted && cartItems > 0 && (
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
                 {cartItems}
               </span>

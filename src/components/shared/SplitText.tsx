@@ -33,7 +33,7 @@ export function SplitText({ text, className = "", delay = 0, as: Tag = "p" }: Pr
     },
   };
 
-  const MotionTag = motion(Tag as ElementType);
+  const MotionTag = useMemo(() => motion.create(Tag as ElementType), [Tag]);
 
   return (
     <MotionTag
