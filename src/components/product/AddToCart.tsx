@@ -27,7 +27,7 @@ export function AddToCart({ product, selectedVariant }: Props) {
       name: product.name,
       price: product.price,
       size: selectedVariant.size,
-      color: selectedVariant.color,
+      color: selectedVariant.color ?? "",
       image: product.images[0]?.url ?? "",
     });
     setClicked(true);
