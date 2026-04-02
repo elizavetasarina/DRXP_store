@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 import { AnimationProvider } from "@/providers/AnimationProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-black text-neutral-100 font-sans">
+        <AuthProvider>
         <QueryProvider>
           <AnimationProvider>
             <CustomCursor />
@@ -43,6 +45,7 @@ export default function RootLayout({
             <Footer />
           </AnimationProvider>
         </QueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );
