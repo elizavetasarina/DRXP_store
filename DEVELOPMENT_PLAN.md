@@ -4,93 +4,102 @@
 
 ---
 
-# PHASE 1 — Core Architecture
+# PHASE 1 — Core Architecture ✅
 
 * [x] проверить текущую структуру проекта
-* [x] создать prisma schema (complete — User, Product, Category, Order, Cart, Promo)
+* [x] создать prisma schema (User, Product, Category, Order, Cart, Promo)
 * [x] активировать Prisma client singleton (src/lib/prisma.ts)
 * [x] добавить backend слой server/ (repositories + services)
-* [ ] настроить PostgreSQL (.env + prisma generate + db push) — ручное действие
+* [x] Railway PostgreSQL подключён к проекту
+* [x] деплой на Railway работает (Node 20, prisma generate при билде)
 * [x] создать seed данные (prisma/seed.ts) — 4 продукта + 2 промокода
 
 ---
 
-# PHASE 2 — Products
+# PHASE 2 — Products ✅
 
 * [x] модель Product (schema.prisma)
-* [x] TypeScript типы (src/types/product.ts, src/types/order.ts) — выровнены с Prisma schema
+* [x] TypeScript типы (product.ts, order.ts) — выровнены с Prisma schema
 * [x] страница каталога UI (src/app/(shop)/shop/page.tsx)
 * [x] карточка товара (src/components/shop/ProductCard.tsx)
 * [x] фильтры UI (src/components/shop/FilterSidebar.tsx)
-* [x] исправить типы product.ts (comparePrice, isFeatured, sku, colorHex, tags, isPublished)
-* [x] Product API → подключить к БД (src/app/api/products/route.ts + [id]/route.ts)
+* [x] Product API → подключён к services (src/app/api/products/)
+* [x] Product [id] API → подключён к services (src/app/api/products/[id]/)
 
 ---
 
-# PHASE 3 — Cart
+# PHASE 3 — Cart ✅ (client-side)
 
 * [x] cart store Zustand (src/store/cartStore.ts)
 * [x] add to cart UI (src/components/product/AddToCart.tsx)
 * [x] cart page (src/app/cart/page.tsx)
 * [x] CartDrawer (src/components/cart/CartDrawer.tsx)
-* [ ] cart API → server-side (src/app/api/cart/route.ts) — отложено до авторизации
+* [ ] cart API → server-side — отложено до авторизации
 
 ---
 
-# PHASE 4 — Checkout
+# PHASE 4 — Checkout (частично)
 
 * [x] checkout UI (src/app/checkout/page.tsx)
 * [x] CheckoutForm, OrderSummary, PaymentStub компоненты
 * [x] payment abstraction layer (src/lib/payment/)
-* [x] order creation → расчёт subtotal/discount/total через promoService (DB persist — после auth)
-* [ ] order DB persist (src/app/api/orders/route.ts) — требует userId из сессии
+* [x] promo API → подключён к promoService (src/app/api/promo/validate/)
+* [x] orders API → promo расчёт работает, stub orderId (src/app/api/orders/)
+* [ ] order DB persist → требует userId из сессии (после Phase 8 Auth)
 * [ ] order history (src/app/(account)/account/orders/page.tsx)
 
 ---
 
-# PHASE 5 — Content
+# PHASE 5 — Content ✅
 
-* [x] lookbook page UI (src/app/(content)/lookbook/)
-* [x] journal page UI (src/app/(content)/journal/)
-* [x] about page UI (src/app/(content)/about/)
-* [x] contact page UI (src/app/(content)/contact/)
-* [x] скачать изображения с Unsplash → public/images/{products,lookbook,editorial,hero}/
-* [x] обновить пути изображений в constants.ts (comparePrice, isFeatured, sku, colorHex, tags)
+* [x] lookbook, journal, about, contact — UI готов
+* [x] изображения с Unsplash → public/images/{products,lookbook,editorial,hero}/
+* [x] пути изображений обновлены в constants.ts
 
 ---
 
-# PHASE 6 — Backend Layer (текущий приоритет)
+# PHASE 6 — Backend Layer ✅
 
-* [x] src/server/repositories/product.repository.ts
-* [x] src/server/repositories/order.repository.ts
-* [x] src/server/repositories/promo.repository.ts
-* [x] src/server/repositories/user.repository.ts
-* [x] src/server/services/product.service.ts
-* [x] src/server/services/order.service.ts
-* [x] src/server/services/promo.service.ts
-* [x] src/server/services/auth.service.ts
+* [x] repositories: product, order, promo, user
+* [x] services: product, order, promo, auth
+* [x] API routes подключены к services: products, products/[id], promo/validate, orders
 
 ---
 
-# PHASE 7 — Auth
+# PHASE 7 — Database Init & Deploy ✅
 
-* [x] login page UI (src/app/(auth)/login/)
-* [x] register page UI (src/app/(auth)/register/)
+* [x] Railway PostgreSQL подключён
+* [x] prisma db push — таблицы созданы
+* [x] деплой работает (Node 20, prisma generate при билде, db push при старте)
+* [x] hydration fix (Header.tsx — mounted state для cart/wishlist)
+* [x] motion.create() fix (SplitText.tsx — Framer Motion v12)
+* [ ] запустить `npx prisma db seed` — загрузить тестовые данные (через Railway CLI)
+
+---
+
+# PHASE 8 — Auth
+
+* [x] login page UI
+* [x] register page UI
 * [ ] NextAuth v5 конфигурация (src/lib/auth.ts)
-* [ ] подключить login/register к NextAuth
+* [ ] API route: src/app/api/auth/[...nextauth]/route.ts
+* [ ] API route: src/app/api/auth/register/route.ts
+* [ ] подключить login/register формы к NextAuth
+* [ ] защитить /account/* роуты (middleware)
+* [ ] order DB persist после получения userId из сессии
 
 ---
 
-# PHASE 8 — Performance & SEO
+# PHASE 9 — Performance & SEO
 
-* [x] next.config.ts image domains (Unsplash + Pexels remotePatterns)
-* [ ] metadata для страниц
-* [ ] generateStaticParams для product pages
+* [x] next.config.ts image domains
+* [ ] metadata для страниц (title, description, og:image)
+* [ ] generateStaticParams для /product/[slug]
 * [ ] Lighthouse 90+
 
 ---
 
-# PHASE 9 — Payments
+# PHASE 10 — Payments
 
 * [ ] YooKassa integration
 * [ ] CloudPayments integration
@@ -98,7 +107,7 @@
 
 ---
 
-# PHASE 10 — Admin
+# PHASE 11 — Admin
 
 * [ ] admin products panel
 * [ ] admin orders panel
