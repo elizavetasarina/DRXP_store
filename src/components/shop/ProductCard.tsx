@@ -31,7 +31,7 @@ export function ProductCard({ product }: Props) {
       name: product.name,
       price: product.price,
       size: firstVariantInStock.size,
-      color: firstVariantInStock.color,
+      color: firstVariantInStock.color ?? "",
       image: product.images[0]?.url ?? "",
     });
     openCart();

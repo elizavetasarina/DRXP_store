@@ -19,7 +19,7 @@ export function VariantSelector({
   onColorChange,
 }: Props) {
   const availableSizes = [...new Set(variants.map((v) => v.size))];
-  const availableColors = [...new Set(variants.map((v) => v.color))];
+  const availableColors = [...new Set(variants.map((v) => v.color).filter((c): c is string => !!c))];
 
   const getStockForSize = (size: string) =>
     variants.filter((v) => v.size === size && (!selectedColor || v.color === selectedColor))
