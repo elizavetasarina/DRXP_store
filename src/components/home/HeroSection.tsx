@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { SplitText } from "@/components/shared/SplitText";
 import { MagneticButton } from "@/components/shared/MagneticButton";
+import { useTranslations } from "next-intl";
 
 export function HeroSection() {
+  const t = useTranslations("hero");
   return (
     <section className="relative h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
       {/* Background noise texture overlay */}
@@ -12,7 +14,7 @@ export function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center gap-8">
         <SplitText
-          text="DRXP"
+          text={t("brand")}
           as="h1"
           className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-bold tracking-tight text-white leading-none"
         />
@@ -23,7 +25,7 @@ export function HeroSection() {
           transition={{ delay: 0.8, duration: 1 }}
           className="text-sm tracking-[0.4em] text-white/50 uppercase"
         >
-          Contemporary Streetwear
+          {t("tagline")}
         </motion.p>
 
         <motion.div
@@ -36,7 +38,7 @@ export function HeroSection() {
             href="/shop"
             className="inline-block border border-white/20 px-10 py-4 text-sm tracking-[0.2em] uppercase text-white transition-colors duration-300 hover:bg-white hover:text-black"
           >
-            Explore Collection
+            {t("cta")}
           </MagneticButton>
         </motion.div>
       </div>
@@ -49,7 +51,7 @@ export function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
       >
         <span className="text-[10px] tracking-[0.3em] text-white/30 uppercase rotate-90 origin-center translate-y-[-1rem]">
-          Scroll
+          {t("scroll")}
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}

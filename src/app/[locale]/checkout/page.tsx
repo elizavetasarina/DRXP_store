@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { PaymentStub } from "@/components/checkout/PaymentStub";
 
 export default function CheckoutPage() {
+  const [paymentMethod, setPaymentMethod] = useState("card");
+
   return (
     <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
       <AnimatedSection>
@@ -15,11 +18,11 @@ export default function CheckoutPage() {
       <div className="flex flex-col lg:flex-row gap-12">
         <div className="flex-1">
           <AnimatedSection>
-            <CheckoutForm />
+            <CheckoutForm paymentMethod={paymentMethod} />
           </AnimatedSection>
           <div className="mt-10">
             <AnimatedSection>
-              <PaymentStub />
+              <PaymentStub selected={paymentMethod} onSelect={setPaymentMethod} />
             </AnimatedSection>
           </div>
         </div>

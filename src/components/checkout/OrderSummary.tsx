@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/lib/utils";
 
 export function OrderSummary() {
+  const t = useTranslations("orderSummary");
   const items = useCartStore((s) => s.items);
   const getTotalPrice = useCartStore((s) => s.getTotalPrice);
   const getDiscountedTotal = useCartStore((s) => s.getDiscountedTotal);
@@ -18,7 +20,7 @@ export function OrderSummary() {
   return (
     <div className="sticky top-32 bg-neutral-950 p-6 border border-white/5">
       <h2 className="text-sm font-medium tracking-[0.15em] uppercase mb-6">
-        Order Summary
+        {t("title")}
       </h2>
 
       {/* Item list */}
@@ -44,24 +46,24 @@ export function OrderSummary() {
       {/* Totals */}
       <div className="space-y-3 text-sm">
         <div className="flex justify-between">
-          <span className="text-white/50">Subtotal</span>
+          <span className="text-white/50">{t("subtotal")}</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-white/50">Shipping</span>
-          <span>{shippingCost === 0 ? "Free" : formatPrice(shippingCost)}</span>
+          <span className="text-white/50">{t("shipping")}</span>
+          <span>{shippingCost === 0 ? t("free") : formatPrice(shippingCost)}</span>
         </div>
 
         {discount > 0 && (
           <div className="flex justify-between">
-            <span className="text-white/50">Discount ({promoCode?.code})</span>
+            <span className="text-white/50">{t("discount")} ({promoCode?.code})</span>
             <span className="text-green-400">&minus;{formatPrice(discount)}</span>
           </div>
         )}
 
         <div className="border-t border-white/10 pt-3 flex justify-between font-medium">
-          <span>Total</span>
+          <span>{t("total")}</span>
           <span>{formatPrice(total)}</span>
         </div>
       </div>

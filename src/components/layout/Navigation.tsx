@@ -1,18 +1,19 @@
 "use client";
 
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useUIStore } from "@/store/uiStore";
 
-const NAV_ITEMS = [
-  { label: "HOME", href: "/" },
-  { label: "SHOP", href: "/shop" },
-  { label: "LOOKBOOK", href: "/lookbook" },
-  { label: "ABOUT", href: "/about" },
-  { label: "JOURNAL", href: "/journal" },
-  { label: "CONTACT", href: "/contact" },
-];
+const NAV_KEYS = [
+  { key: "home", href: "/" },
+  { key: "shop", href: "/shop" },
+  { key: "lookbook", href: "/lookbook" },
+  { key: "about", href: "/about" },
+  { key: "journal", href: "/journal" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 const SOCIALS = [
   { label: "Instagram", href: "https://instagram.com" },
@@ -22,6 +23,7 @@ const SOCIALS = [
 
 export default function Navigation() {
   const { isMenuOpen, toggleMenu } = useUIStore();
+  const t = useTranslations("nav");
 
   return (
     <AnimatePresence>
@@ -37,14 +39,14 @@ export default function Navigation() {
           <button
             onClick={toggleMenu}
             className="absolute top-6 right-6 md:top-8 md:right-10 text-white hover:opacity-60 transition-opacity"
-            aria-label="Close menu"
+            aria-label={t("closeMenu")}
           >
             <X className="w-6 h-6" strokeWidth={1.5} />
           </button>
 
           {/* Links */}
           <div className="flex flex-col gap-2 md:gap-4 mt-8">
-            {NAV_ITEMS.map((item, i) => (
+            {NAV_KEYS.map((item, i) => (
               <motion.div
                 key={item.href}
                 initial={{ opacity: 0, y: 40 }}
@@ -58,7 +60,7 @@ export default function Navigation() {
                   className="group flex items-center text-5xl md:text-7xl font-light text-white/90 hover:text-white transition-all duration-300"
                 >
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-4">
-                    {item.label}
+                    {t(item.key)}
                   </span>
                   <span className="ml-4 h-px w-0 bg-white group-hover:w-16 transition-all duration-300" />
                 </Link>

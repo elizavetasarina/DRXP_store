@@ -1,6 +1,6 @@
 # DRXP Store Development Plan
 
-Проект разрабатывается по фазам. Обновлено: 2026-04-02.
+Проект разрабатывается по фазам. Обновлено: 2026-04-05.
 
 ---
 
@@ -34,19 +34,22 @@
 * [x] add to cart UI (src/components/product/AddToCart.tsx)
 * [x] cart page (src/app/cart/page.tsx)
 * [x] CartDrawer (src/components/cart/CartDrawer.tsx)
-* [ ] cart API → server-side — отложено до авторизации
+* [ ] cart API → server-side — отложено до Phase 8 Auth
 
 ---
 
-# PHASE 4 — Checkout (частично)
+# PHASE 4 — Checkout ✅
 
 * [x] checkout UI (src/app/checkout/page.tsx)
 * [x] CheckoutForm, OrderSummary, PaymentStub компоненты
 * [x] payment abstraction layer (src/lib/payment/)
 * [x] promo API → подключён к promoService (src/app/api/promo/validate/)
 * [x] orders API → promo расчёт работает, stub orderId (src/app/api/orders/)
-* [ ] order DB persist → требует userId из сессии (после Phase 8 Auth)
-* [ ] order history (src/app/(account)/account/orders/page.tsx)
+* [x] order DB persist → CheckoutForm подключён к POST /api/orders, редирект на /order-confirmation
+* [x] order history page (src/app/(account)/account/orders/page.tsx) — Phase 8.6
+* [x] cart promo валидация → реальный /api/promo/validate (убраны hardcoded коды)
+* [x] order confirmation page (src/app/order-confirmation/page.tsx)
+* [x] PaymentStub подключён к checkout — выбранный метод передаётся в API
 
 ---
 
@@ -70,23 +73,56 @@
 
 * [x] Railway PostgreSQL подключён
 * [x] prisma db push — таблицы созданы
-* [x] деплой работает (Node 20, prisma generate при билде, db push при старте)
+* [x] деплой работает (Node 20, prisma generate при билде)
 * [x] hydration fix (Header.tsx — mounted state для cart/wishlist)
 * [x] motion.create() fix (SplitText.tsx — Framer Motion v12)
-* [ ] запустить `npx prisma db seed` — загрузить тестовые данные (через Railway CLI)
+* [x] Prisma build error fix — engineType binary убран, named import исправлен
+* [x] NextAuth config fix — AUTH_SECRET, proxy.ts (бывший middleware.ts)
+* [ ] `npx prisma db seed` — загрузить тестовые данные (через Railway CLI)
 
 ---
 
-# PHASE 8 — Auth
+# PHASE 8 — Auth ✅
 
-* [x] login page UI
-* [x] register page UI
-* [ ] NextAuth v5 конфигурация (src/lib/auth.ts)
-* [ ] API route: src/app/api/auth/[...nextauth]/route.ts
-* [ ] API route: src/app/api/auth/register/route.ts
-* [ ] подключить login/register формы к NextAuth
-* [ ] защитить /account/* роуты (middleware)
-* [ ] order DB persist после получения userId из сессии
+## 8.1 — Инфраструктура ✅
+* [x] NextAuth v5 конфигурация — Credentials provider, JWT strategy (src/lib/auth.ts)
+* [x] API route: /api/auth/[...nextauth] (src/app/api/auth/[...nextauth]/route.ts)
+* [x] API route: /api/auth/register (src/app/api/auth/register/route.ts)
+* [x] SessionProvider в layout (src/providers/AuthProvider.tsx)
+* [x] .env.local с AUTH_SECRET
+* [x] proxy.ts — защита /account/* и /checkout (src/proxy.ts)
+
+## 8.2 — Login & Register UI ✅
+* [x] /login — форма, signIn("credentials", { redirect: false }), редирект на /account
+* [x] /register — форма, POST /api/auth/register, auto signIn после регистрации
+* [x] Обе страницы показывают ошибки от API
+
+## 8.3 — Header: состояние авторизации ✅
+> Файл: src/components/layout/Header.tsx
+* [x] добавить useSession() из next-auth/react
+* [x] если залогинен → иконка User ведёт на /account
+* [x] если не залогинен → ссылка "SIGN IN" ведёт на /login
+* [x] не изменять остальные иконки (Search, Heart, Cart)
+
+## 8.4 — Account page: реальные данные ✅
+> Файл: src/app/(account)/account/page.tsx
+* [x] заменить hardcoded имя/email на данные из useSession()
+* [x] кнопка Sign Out — вызов signOut() с редиректом на /
+* [x] sidebar: Sign Out добавлен последним пунктом навигации
+
+## 8.5 — Order persist с userId ✅
+> Файл: src/app/api/orders/route.ts
+* [x] auth() уже вызывался, session?.user?.id ветка реализована
+* [x] если залогинен → orderService.createOrder() с userId → сохраняется в БД
+* [x] если гость → расчёт без persist, orderId = guest_...
+* [x] TypeScript типы для сессии (src/types/next-auth.d.ts) — id, role
+
+## 8.6 — Order history ✅
+> Файлы: src/app/(account)/account/orders/page.tsx, OrderList.tsx
+* [x] серверный компонент — auth() + orderRepository.findByUserId()
+* [x] редирект на /login если нет сессии
+* [x] клиент-компонент OrderList — аккордеон по заказам
+* [x] список заказов: дата, сумма, статус, состав позиций
 
 ---
 

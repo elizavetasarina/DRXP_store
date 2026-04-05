@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 const NAV_ITEMS = [
   { label: "Profile", href: "/account" },
@@ -10,9 +11,17 @@ const NAV_ITEMS = [
 ];
 
 export default function AccountPage() {
-  const [name, setName] = useState("Alex Ivanov");
-  const [email, setEmail] = useState("alex@example.com");
-  const [phone, setPhone] = useState("+7 999 123 45 67");
+  const { data: session } = useSession();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
+  useEffect(() => {
+    if (session?.user) {
+      setName(session.user.name ?? "");
+      setEmail(session.user.email ?? "");
+    }
+  }, [session]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -37,6 +46,12 @@ export default function AccountPage() {
               {item.label}
             </Link>
           ))}
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="text-sm tracking-[0.15em] text-white/50 hover:text-white transition-colors text-left"
+          >
+            Sign Out
+          </button>
         </nav>
 
         {/* Profile form */}

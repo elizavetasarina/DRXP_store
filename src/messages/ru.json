@@ -1,0 +1,184 @@
+{
+  "hero": {
+    "brand": "DRXP",
+    "tagline": "Современный стиль",
+    "cta": "Посмотреть коллекцию",
+    "scroll": "Scroll"
+  },
+  "nav": {
+    "home": "ГЛАВНАЯ",
+    "shop": "МАГАЗИН",
+    "lookbook": "ЛУКБУК",
+    "about": "О НАС",
+    "journal": "ЖУРНАЛ",
+    "contact": "КОНТАКТ",
+    "closeMenu": "Закрыть меню"
+  },
+  "header": {
+    "signIn": "ВОЙТИ",
+    "openMenu": "Открыть меню",
+    "openCart": "Открыть корзину",
+    "myAccount": "Мой аккаунт",
+    "search": "Поиск"
+  },
+  "footer": {
+    "shopHeading": "Магазин",
+    "infoHeading": "Информация",
+    "followHeading": "Подписаться",
+    "newsletterHeading": "Рассылка",
+    "newsletterCopy": "Ранний доступ к дропам, лукбукам и эксклюзивным предложениям.",
+    "emailPlaceholder": "Email адрес",
+    "newsletterSubmit": "OK",
+    "copyright": "© 2024 DRXP. Все права защищены.",
+    "langRu": "RU",
+    "langEn": "EN",
+    "allProducts": "Все товары",
+    "newArrivals": "Новинки",
+    "tees": "Футболки",
+    "hoodies": "Худи",
+    "pants": "Брюки",
+    "outerwear": "Верхняя одежда",
+    "accessories": "Аксессуары",
+    "about": "О нас",
+    "lookbook": "Лукбук",
+    "journal": "Журнал",
+    "sizeGuide": "Гид по размерам",
+    "shipping": "Доставка",
+    "returns": "Возвраты"
+  },
+  "home": {
+    "marquee1": "НОВАЯ КОЛЛЕКЦИЯ SS25 — УЖЕ ДОСТУПНА — БЕСПЛАТНАЯ ДОСТАВКА ОТ 10 000 ₽",
+    "marquee2": "DRXP — СОВРЕМЕННЫЙ СТРИТВИР — С 2024 — МОСКВА"
+  },
+  "shop": {
+    "title": "МАГАЗИН",
+    "filters": "Фильтры",
+    "productCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товара}}"
+  },
+  "cart": {
+    "title": "КОРЗИНА",
+    "continueShopping": "Продолжить покупки",
+    "empty": "Корзина пуста",
+    "shopNow": "В магазин",
+    "orderSummary": "Итого по заказу",
+    "subtotal": "Подытог",
+    "promoCode": "Промокод",
+    "apply": "Применить",
+    "promoApplied": "{code} применён",
+    "removePromo": "Убрать",
+    "total": "Итого",
+    "proceedToCheckout": "Перейти к оформлению",
+    "invalidPromo": "Недействительный промокод"
+  },
+  "checkout": {
+    "title": "ОФОРМЛЕНИЕ ЗАКАЗА"
+  },
+  "orderConfirmation": {
+    "title": "ЗАКАЗ ОФОРМЛЕН",
+    "thanks": "Спасибо за покупку",
+    "viewOrders": "МОИ ЗАКАЗЫ",
+    "continueShopping": "ПРОДОЛЖИТЬ ПОКУПКИ"
+  },
+  "auth": {
+    "signInTitle": "ВОЙТИ",
+    "email": "Email",
+    "password": "Пароль",
+    "signInButton": "ВОЙТИ",
+    "noAccount": "Нет аккаунта?",
+    "createOne": "Создать",
+    "wrongCredentials": "Неверный email или пароль",
+    "createAccountTitle": "СОЗДАТЬ АККАУНТ",
+    "fullName": "Полное имя",
+    "confirmPassword": "Подтвердить пароль",
+    "createAccountButton": "СОЗДАТЬ АККАУНТ",
+    "haveAccount": "Уже есть аккаунт?",
+    "signIn": "Войти",
+    "passwordMismatch": "Пароли не совпадают",
+    "registrationError": "Ошибка регистрации"
+  },
+  "account": {
+    "title": "МОЙ АККАУНТ",
+    "profile": "Профиль",
+    "orders": "Заказы",
+    "wishlist": "Избранное",
+    "signOut": "Выйти",
+    "name": "ИМЯ",
+    "email": "EMAIL",
+    "phone": "ТЕЛЕФОН",
+    "saveChanges": "СОХРАНИТЬ",
+    "ordersTitle": "ИСТОРИЯ ЗАКАЗОВ",
+    "noOrders": "Заказов пока нет",
+    "browseShop": "В МАГАЗИН",
+    "wishlistTitle": "ИЗБРАННОЕ",
+    "wishlistEmpty": "Список избранного пуст",
+    "addToCart": "В КОРЗИНУ",
+    "remove": "УДАЛИТЬ"
+  },
+  "checkoutForm": {
+    "shippingAddress": "Адрес доставки",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "phone": "Телефон",
+    "address1": "Адрес, строка 1",
+    "address2": "Адрес, строка 2 (необязательно)",
+    "city": "Город",
+    "region": "Регион",
+    "postalCode": "Почтовый индекс",
+    "placeOrder": "ОФОРМИТЬ ЗАКАЗ",
+    "orderError": "Не удалось оформить заказ. Попробуйте снова."
+  },
+  "orderSummary": {
+    "title": "Итого по заказу",
+    "subtotal": "Подытог",
+    "shipping": "Доставка",
+    "free": "Бесплатно",
+    "discount": "Скидка",
+    "total": "Итого"
+  },
+  "payment": {
+    "title": "Способ оплаты",
+    "methods": {
+      "card": "Банковская карта",
+      "yukassa": "ЮКасса",
+      "tinkoff": "Тинькофф Pay",
+      "sbp": "СБП"
+    },
+    "comingSoon": "Оплата скоро появится"
+  },
+  "productCard": {
+    "sale": "Скидка",
+    "quickAdd": "Быстро добавить",
+    "soldOut": "Нет в наличии"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "categories": "Категории",
+    "all": "Все",
+    "size": "Размер",
+    "price": "Цена"
+  },
+  "cartDrawer": {
+    "title": "Корзина",
+    "empty": "Корзина пуста",
+    "emptyHint": "Похоже, вы ещё ничего не добавили.",
+    "browseShop": "В магазин",
+    "promoCode": "Промокод",
+    "apply": "Применить",
+    "promoApplied": "{code} применён",
+    "removePromo": "Убрать",
+    "subtotal": "Подытог",
+    "total": "Итого",
+    "checkout": "Оформить заказ",
+    "closeCart": "Закрыть корзину",
+    "removeItem": "Убрать товар"
+  },
+  "addToCart": {
+    "addToCart": "Добавить в корзину",
+    "selectSize": "Выберите размер",
+    "addToWishlist": "В избранное",
+    "removeFromWishlist": "Убрать из избранного"
+  },
+  "product": {
+    "notFound": "Товар не найден"
+  }
+}

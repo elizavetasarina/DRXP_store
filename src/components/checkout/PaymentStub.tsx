@@ -1,43 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useTranslations } from "next-intl";
 
-const methods = [
-  { id: "card", name: "Bank Card" },
-  { id: "yukassa", name: "YuKassa" },
-  { id: "tinkoff", name: "Tinkoff Pay" },
-  { id: "sbp", name: "SBP" },
-];
+const methodIds = ["card", "yukassa", "tinkoff", "sbp"] as const;
 
-export function PaymentStub() {
-  const [selected, setSelected] = useState("card");
+interface PaymentStubProps {
+  selected: string;
+  onSelect: (id: string) => void;
+}
+
+export function PaymentStub({ selected, onSelect }: PaymentStubProps) {
+  const t = useTranslations("payment");
 
   return (
     <div>
       <h2 className="text-sm font-medium tracking-[0.15em] uppercase mb-6">
-        Payment Method
+        {t("title")}
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {methods.map((m) => (
+        {methodIds.map((id) => (
           <button
-            key={m.id}
+            key={id}
             type="button"
-            onClick={() => setSelected(m.id)}
+            onClick={() => onSelect(id)}
             className={`border p-4 text-sm text-center transition-colors ${
-              selected === m.id
+              selected === id
                 ? "border-white/30 bg-white/5"
                 : "border-white/10 hover:border-white/20"
             }`}
           >
             <div className="w-8 h-8 mx-auto mb-2 rounded bg-white/10" />
-            {m.name}
+            {t(`methods.${id}`)}
           </button>
         ))}
       </div>
 
       <p className="text-white/40 text-xs mt-4">
-        Payment integration coming soon
+        {t("comingSoon")}
       </p>
     </div>
   );

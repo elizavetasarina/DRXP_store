@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useCartStore, PromoCode } from "@/store/cartStore";
+import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/lib/utils";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
@@ -18,29 +18,38 @@ export default function CartPage() {
 
   const [promoInput, setPromoInput] = useState("");
   const [promoError, setPromoError] = useState("");
+  const [promoLoading, setPromoLoading] = useState(false);
 
   const subtotal = getTotalPrice();
   const total = getDiscountedTotal();
   const discount = subtotal - total;
 
-  const handleApplyPromo = () => {
+  const handleApplyPromo = async () => {
     const code = promoInput.trim().toUpperCase();
     if (!code) return;
+    setPromoLoading(true);
+    setPromoError("");
 
-    // Stub promo codes
-    const promoCodes: Record<string, PromoCode> = {
-      DRXP10: { code: "DRXP10", discountType: "percentage", discountValue: 10 },
-      DRXP20: { code: "DRXP20", discountType: "percentage", discountValue: 20 },
-      SAVE500: { code: "SAVE500", discountType: "fixed", discountValue: 50000 },
-    };
+    const res = await fetch("/api/promo/validate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, subtotal }),
+    });
 
-    const found = promoCodes[code];
-    if (found) {
-      applyPromo(found);
-      setPromoError("");
-    } else {
-      setPromoError("Invalid promo code");
+    const data = await res.json();
+    setPromoLoading(false);
+
+    if (!data.valid) {
+      setPromoError(data.error ?? "Недействительный промокод");
+      return;
     }
+
+    applyPromo({
+      code,
+      discountType: data.discountType === "PERCENTAGE" ? "percentage" : "fixed",
+      discountValue: data.discountValue,
+    });
+    setPromoInput("");
   };
 
   return (
@@ -186,9 +195,10 @@ export default function CartPage() {
                         />
                         <button
                           onClick={handleApplyPromo}
-                          className="border border-white/10 px-4 py-3 text-sm text-white/70 hover:text-white hover:border-white/30 transition-colors tracking-[0.1em] uppercase"
+                          disabled={promoLoading}
+                          className="border border-white/10 px-4 py-3 text-sm text-white/70 hover:text-white hover:border-white/30 transition-colors tracking-[0.1em] uppercase disabled:opacity-50"
                         >
-                          Apply
+                          {promoLoading ? "..." : "Apply"}
                         </button>
                       </div>
                       {promoError && (

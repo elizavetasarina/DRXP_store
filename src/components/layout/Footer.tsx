@@ -1,49 +1,54 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-
-const shopLinks = [
-  { label: "All Products", href: "/shop" },
-  { label: "New Arrivals", href: "/shop?sort=newest" },
-  { label: "Tees", href: "/shop/tees" },
-  { label: "Hoodies", href: "/shop/hoodies" },
-  { label: "Pants", href: "/shop/pants" },
-  { label: "Outerwear", href: "/shop/outerwear" },
-  { label: "Accessories", href: "/shop/accessories" },
-];
-
-const infoLinks = [
-  { label: "About", href: "/about" },
-  { label: "Lookbook", href: "/lookbook" },
-  { label: "Journal", href: "/journal" },
-  { label: "Size Guide", href: "/size-guide" },
-  { label: "Shipping", href: "/shipping" },
-  { label: "Returns", href: "/returns" },
-];
-
-const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Telegram", href: "https://t.me" },
-  { label: "VK", href: "https://vk.com" },
-];
+import { useTranslations, useLocale } from "next-intl";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 
 export function Footer() {
   const [email, setEmail] = useState("");
+  const t = useTranslations("footer");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const switchLocale = (next: string) => router.replace(pathname, { locale: next });
+
+  const shopLinks = [
+    { labelKey: "allProducts", href: "/shop" },
+    { labelKey: "newArrivals", href: "/shop?sort=newest" },
+    { labelKey: "tees", href: "/shop?category=tees" },
+    { labelKey: "hoodies", href: "/shop?category=hoodies" },
+    { labelKey: "pants", href: "/shop?category=pants" },
+    { labelKey: "outerwear", href: "/shop?category=outerwear" },
+    { labelKey: "accessories", href: "/shop?category=accessories" },
+  ] as const;
+
+  const infoLinks = [
+    { labelKey: "about", href: "/about" },
+    { labelKey: "lookbook", href: "/lookbook" },
+    { labelKey: "journal", href: "/journal" },
+    { labelKey: "sizeGuide", href: "/size-guide" },
+    { labelKey: "shipping", href: "/shipping" },
+    { labelKey: "returns", href: "/returns" },
+  ] as const;
+
+  const socialLinks = [
+    { label: "Instagram", href: "https://instagram.com" },
+    { label: "Telegram", href: "https://t.me" },
+    { label: "VK", href: "https://vk.com" },
+  ];
 
   return (
     <footer className="bg-neutral-950 border-t border-white/5">
       <div className="px-6 md:px-10 py-20">
-        {/* Large brand text */}
         <p className="text-6xl md:text-8xl font-bold tracking-[0.2em] text-white/5 select-none mb-16">
           DRXP
         </p>
 
-        {/* 4-column grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           {/* Shop */}
           <div>
-            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">Shop</h4>
+            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">{t("shopHeading")}</h4>
             <ul className="space-y-3">
               {shopLinks.map((link) => (
                 <li key={link.href}>
@@ -51,7 +56,7 @@ export function Footer() {
                     href={link.href}
                     className="text-xs tracking-widest uppercase text-white/40 hover:text-white transition-colors duration-300"
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </Link>
                 </li>
               ))}
@@ -60,7 +65,7 @@ export function Footer() {
 
           {/* Info */}
           <div>
-            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">Info</h4>
+            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">{t("infoHeading")}</h4>
             <ul className="space-y-3">
               {infoLinks.map((link) => (
                 <li key={link.href}>
@@ -68,7 +73,7 @@ export function Footer() {
                     href={link.href}
                     className="text-xs tracking-widest uppercase text-white/40 hover:text-white transition-colors duration-300"
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </Link>
                 </li>
               ))}
@@ -77,10 +82,10 @@ export function Footer() {
 
           {/* Follow */}
           <div>
-            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">Follow</h4>
+            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">{t("followHeading")}</h4>
             <ul className="space-y-3">
               {socialLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <a
                     href={link.href}
                     target="_blank"
@@ -96,29 +101,26 @@ export function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">Newsletter</h4>
+            <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">{t("newsletterHeading")}</h4>
             <p className="text-xs text-white/30 mb-4 leading-relaxed">
-              Early access to drops, lookbooks, and exclusive offers.
+              {t("newsletterCopy")}
             </p>
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setEmail("");
-              }}
+              onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
               className="flex"
             >
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email address"
+                placeholder={t("emailPlaceholder")}
                 className="flex-1 bg-transparent border border-white/20 text-white text-xs tracking-wider px-3 py-2.5 placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors"
               />
               <button
                 type="submit"
                 className="bg-white text-black text-xs tracking-widest uppercase px-4 py-2.5 hover:bg-white/90 transition-colors"
               >
-                OK
+                {t("newsletterSubmit")}
               </button>
             </form>
           </div>
@@ -128,12 +130,22 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="flex items-center justify-between px-6 md:px-10 py-5 border-t border-white/5">
         <p className="text-[10px] tracking-widest uppercase text-white/30">
-          &copy; 2024 DRXP. All rights reserved.
+          {t("copyright")}
         </p>
-        <div className="flex items-center gap-3 text-[10px] tracking-widest uppercase text-white/30">
-          <button className="hover:text-white transition-colors">RU</button>
-          <span>/</span>
-          <button className="hover:text-white transition-colors">EN</button>
+        <div className="flex items-center gap-3 text-[10px] tracking-widest uppercase">
+          <button
+            onClick={() => switchLocale("ru")}
+            className={`transition-colors ${locale === "ru" ? "text-white" : "text-white/30 hover:text-white"}`}
+          >
+            {t("langRu")}
+          </button>
+          <span className="text-white/30">/</span>
+          <button
+            onClick={() => switchLocale("en")}
+            className={`transition-colors ${locale === "en" ? "text-white" : "text-white/30 hover:text-white"}`}
+          >
+            {t("langEn")}
+          </button>
         </div>
       </div>
     </footer>

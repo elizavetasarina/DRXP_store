@@ -1,0 +1,186 @@
+{
+  "hero": {
+    "brand": "DRXP",
+    "tagline": "Contemporary Streetwear",
+    "cta": "Explore Collection",
+    "scroll": "Scroll"
+  },
+  "nav": {
+    "home": "HOME",
+    "shop": "SHOP",
+    "lookbook": "LOOKBOOK",
+    "about": "ABOUT",
+    "journal": "JOURNAL",
+    "contact": "CONTACT",
+    "closeMenu": "Close menu"
+  },
+  "header": {
+    "signIn": "SIGN IN",
+    "openMenu": "Open menu",
+    "openCart": "Open cart",
+    "myAccount": "My account",
+    "search": "Search"
+  },
+  "footer": {
+    "shopHeading": "Shop",
+    "infoHeading": "Info",
+    "followHeading": "Follow",
+    "newsletterHeading": "Newsletter",
+    "newsletterCopy": "Early access to drops, lookbooks, and exclusive offers.",
+    "emailPlaceholder": "Email address",
+    "newsletterSubmit": "OK",
+    "copyright": "© 2024 DRXP. All rights reserved.",
+    "langRu": "RU",
+    "langEn": "EN",
+    "allProducts": "All Products",
+    "newArrivals": "New Arrivals",
+    "tees": "Tees",
+    "hoodies": "Hoodies",
+    "pants": "Pants",
+    "outerwear": "Outerwear",
+    "accessories": "Accessories",
+    "about": "About",
+    "lookbook": "Lookbook",
+    "journal": "Journal",
+    "sizeGuide": "Size Guide",
+    "shipping": "Shipping",
+    "returns": "Returns"
+  },
+  "home": {
+    "marquee1": "NEW COLLECTION SS25 — AVAILABLE NOW — FREE SHIPPING OVER 10 000 ₽",
+    "marquee2": "DRXP — CONTEMPORARY STREETWEAR — SINCE 2024 — MOSCOW"
+  },
+  "shop": {
+    "title": "SHOP",
+    "filters": "Filters",
+    "productCount": "{count, plural, one {# product} other {# products}}"
+  },
+  "cart": {
+    "title": "CART",
+    "continueShopping": "Continue Shopping",
+    "empty": "Your cart is empty",
+    "shopNow": "Shop Now",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "promoCode": "Promo code",
+    "apply": "Apply",
+    "promoApplied": "{code} applied",
+    "removePromo": "Remove",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout",
+    "invalidPromo": "Invalid promo code"
+  },
+  "checkout": {
+    "title": "CHECKOUT"
+  },
+  "orderConfirmation": {
+    "title": "ORDER PLACED",
+    "thanks": "Thank you for your purchase",
+    "viewOrders": "VIEW ORDERS",
+    "continueShopping": "CONTINUE SHOPPING"
+  },
+  "auth": {
+    "signInTitle": "SIGN IN",
+    "email": "Email",
+    "password": "Password",
+    "signInButton": "SIGN IN",
+    "noAccount": "Don't have an account?",
+    "createOne": "Create one",
+    "wrongCredentials": "Invalid email or password",
+    "createAccountTitle": "CREATE ACCOUNT",
+    "fullName": "Full Name",
+    "confirmPassword": "Confirm Password",
+    "createAccountButton": "CREATE ACCOUNT",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "passwordMismatch": "Passwords do not match",
+    "registrationError": "Registration error"
+  },
+  "account": {
+    "title": "MY ACCOUNT",
+    "profile": "Profile",
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "signOut": "Sign Out",
+    "name": "NAME",
+    "email": "EMAIL",
+    "phone": "PHONE",
+    "saveChanges": "SAVE CHANGES",
+    "ordersTitle": "ORDER HISTORY",
+    "noOrders": "No orders yet",
+    "browseShop": "BROWSE SHOP",
+    "wishlistTitle": "WISHLIST",
+    "wishlistEmpty": "Your wishlist is empty",
+    "addToCart": "ADD TO CART",
+    "remove": "REMOVE",
+    "itemCount": "{count, plural, one {# item} other {# items}}",
+    "orderTotal": "TOTAL"
+  },
+  "checkoutForm": {
+    "shippingAddress": "Shipping Address",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "address1": "Address line 1",
+    "address2": "Address line 2 (optional)",
+    "city": "City",
+    "region": "Region",
+    "postalCode": "Postal code",
+    "placeOrder": "PLACE ORDER",
+    "orderError": "Failed to place order. Please try again."
+  },
+  "orderSummary": {
+    "title": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "discount": "Discount",
+    "total": "Total"
+  },
+  "payment": {
+    "title": "Payment Method",
+    "methods": {
+      "card": "Bank Card",
+      "yukassa": "YuKassa",
+      "tinkoff": "Tinkoff Pay",
+      "sbp": "SBP"
+    },
+    "comingSoon": "Payment integration coming soon"
+  },
+  "productCard": {
+    "sale": "Sale",
+    "quickAdd": "Quick Add",
+    "soldOut": "Sold Out"
+  },
+  "filters": {
+    "title": "Filters",
+    "categories": "Categories",
+    "all": "All",
+    "size": "Size",
+    "price": "Price"
+  },
+  "cartDrawer": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyHint": "Looks like you have not added anything yet.",
+    "browseShop": "Browse Shop",
+    "promoCode": "Promo code",
+    "apply": "Apply",
+    "promoApplied": "{code} applied",
+    "removePromo": "Remove",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Checkout",
+    "closeCart": "Close cart",
+    "removeItem": "Remove item"
+  },
+  "addToCart": {
+    "addToCart": "Add to Cart",
+    "selectSize": "Select a Size",
+    "addToWishlist": "Add to Wishlist",
+    "removeFromWishlist": "Remove from Wishlist"
+  },
+  "product": {
+    "notFound": "Product not found"
+  }
+}

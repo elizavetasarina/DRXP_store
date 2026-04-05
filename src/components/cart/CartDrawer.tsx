@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useUIStore } from "@/store/uiStore";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/lib/utils";
@@ -14,6 +15,7 @@ export default function CartDrawer() {
   const { items, removeItem, updateQuantity, getTotalPrice, getDiscountedTotal, applyPromo, promoCode, removePromo } =
     useCartStore();
   const [promoInput, setPromoInput] = useState("");
+  const t = useTranslations("cartDrawer");
 
   const total = getTotalPrice();
   const discounted = getDiscountedTotal();
@@ -50,9 +52,9 @@ export default function CartDrawer() {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
               <h2 className="text-white text-sm tracking-[0.2em] uppercase">
-                Cart ({items.length})
+                {t("title")} ({items.length})
               </h2>
-              <button onClick={closeCart} className="text-white/60 hover:text-white transition-colors" aria-label="Close cart">
+              <button onClick={closeCart} className="text-white/60 hover:text-white transition-colors" aria-label={t("closeCart")}>
                 <X className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </div>
@@ -62,15 +64,15 @@ export default function CartDrawer() {
               <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6 text-center">
                 <ShoppingBag className="w-12 h-12 text-white/20" strokeWidth={1} />
                 <div>
-                  <p className="text-white text-sm tracking-[0.2em] uppercase mb-2">Your cart is empty</p>
-                  <p className="text-white/40 text-sm">Looks like you have not added anything yet.</p>
+                  <p className="text-white text-sm tracking-[0.2em] uppercase mb-2">{t("empty")}</p>
+                  <p className="text-white/40 text-sm">{t("emptyHint")}</p>
                 </div>
                 <Link
                   href="/shop"
                   onClick={closeCart}
                   className="border border-white/20 text-white text-xs tracking-[0.2em] uppercase px-8 py-3 hover:bg-white hover:text-black transition-all duration-300"
                 >
-                  Browse Shop
+                  {t("browseShop")}
                 </Link>
               </div>
             ) : (
@@ -124,7 +126,7 @@ export default function CartDrawer() {
                       <button
                         onClick={() => removeItem(item.productId, item.variantId)}
                         className="text-white/30 hover:text-white transition-colors self-start mt-0.5"
-                        aria-label="Remove item"
+                        aria-label={t("removeItem")}
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -142,7 +144,7 @@ export default function CartDrawer() {
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="Promo code"
+                      placeholder={t("promoCode")}
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                       className="flex-1 bg-transparent border border-white/10 px-3 py-2 text-white text-xs tracking-wider placeholder-white/30 outline-none focus:border-white/30 transition-colors"
@@ -151,14 +153,14 @@ export default function CartDrawer() {
                       onClick={handlePromo}
                       className="border border-white/10 text-white text-xs tracking-wider uppercase px-4 py-2 hover:bg-white hover:text-black transition-all duration-300"
                     >
-                      Apply
+                      {t("apply")}
                     </button>
                   </div>
                 ) : (
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-green-400 tracking-wider">{promoCode.code} applied</span>
+                    <span className="text-green-400 tracking-wider">{t("promoApplied", { code: promoCode.code })}</span>
                     <button onClick={removePromo} className="text-white/40 hover:text-white transition-colors underline">
-                      Remove
+                      {t("removePromo")}
                     </button>
                   </div>
                 )}
@@ -167,12 +169,12 @@ export default function CartDrawer() {
                 <div className="space-y-2 text-sm">
                   {hasDiscount && (
                     <div className="flex justify-between text-white/40">
-                      <span>Subtotal</span>
+                      <span>{t("subtotal")}</span>
                       <span className="line-through">{formatPrice(total)}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-white">
-                    <span className="tracking-wider uppercase text-xs">Total</span>
+                    <span className="tracking-wider uppercase text-xs">{t("total")}</span>
                     <span className="text-lg">{formatPrice(discounted)}</span>
                   </div>
                 </div>
@@ -182,7 +184,7 @@ export default function CartDrawer() {
                   onClick={closeCart}
                   className="block w-full text-center bg-white text-black text-xs tracking-[0.2em] uppercase py-4 hover:bg-white/90 transition-colors"
                 >
-                  Checkout
+                  {t("checkout")}
                 </Link>
               </div>
             )}
