@@ -1,37 +1,26 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import { getProductBySlug, getAllProducts } from "@/sanity/lib/queries";
+import { adaptSanityProduct, adaptSanityProducts } from "@/lib/sanity-adapters";
+import { ProductPageClient } from "./ProductPageClient";
 
-import { useState, useMemo } from "react";
-import { useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { PRODUCTS } from "@/lib/constants";
-import { AnimatedSection } from "@/components/shared/AnimatedSection";
-import { ImageGallery } from "@/components/product/ImageGallery";
-import { ProductInfo } from "@/components/product/ProductInfo";
-import { VariantSelector } from "@/components/product/VariantSelector";
-import { AddToCart } from "@/components/product/AddToCart";
-import { RelatedProducts } from "@/components/product/RelatedProducts";
+interface Props {
+  params: Promise<{ slug: string; locale: string }>;
+}
 
-export default function ProductPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const t = useTranslations("product");
-  const product = PRODUCTS.find((p) => p.slug === slug);
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+  const locales = ["ru", "en"];
+  return locales.flatMap((locale) =>
+    products.map((p: { slug: string }) => ({ locale, slug: p.slug }))
+  );
+}
 
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const t = await getTranslations("product");
+  const raw = await getProductBySlug(slug);
 
-  const selectedVariant = useMemo(() => {
-    if (!product || !selectedSize) return null;
-    return (
-      product.variants.find(
-        (v) =>
-          v.size === selectedSize &&
-          (!selectedColor || v.color === selectedColor) &&
-          v.stock > 0
-      ) ?? null
-    );
-  }, [product, selectedSize, selectedColor]);
-
-  if (!product) {
+  if (!raw) {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center pt-32">
         <p className="text-sm tracking-widest uppercase text-white/40">
@@ -41,44 +30,15 @@ export default function ProductPage() {
     );
   }
 
-  return (
-    <main className="min-h-screen bg-black text-white pt-32 pb-20">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-          {/* Gallery — 55% */}
-          <div className="md:col-span-7">
-            <AnimatedSection>
-              <ImageGallery images={product.images} />
-            </AnimatedSection>
-          </div>
+  const product = adaptSanityProduct(raw);
 
-          {/* Info — 45% */}
-          <div className="md:col-span-5 space-y-8">
-            <AnimatedSection delay={0.1}>
-              <ProductInfo product={product} />
-            </AnimatedSection>
-
-            <AnimatedSection delay={0.2}>
-              <VariantSelector
-                variants={product.variants}
-                selectedSize={selectedSize}
-                onSizeChange={setSelectedSize}
-                selectedColor={selectedColor}
-                onColorChange={setSelectedColor}
-              />
-            </AnimatedSection>
-
-            <AnimatedSection delay={0.3}>
-              <AddToCart product={product} selectedVariant={selectedVariant} />
-            </AnimatedSection>
-          </div>
-        </div>
-
-        <RelatedProducts
-          currentProductId={product.id}
-          categoryId={product.categoryId}
-        />
-      </div>
-    </main>
+  // Fetch related products from same category
+  const allRaw = await getAllProducts();
+  const related = adaptSanityProducts(
+    allRaw.filter((p: { _id: string; categorySlug?: string }) =>
+      p._id !== raw._id && p.categorySlug === raw.categorySlug
+    ).slice(0, 4)
   );
+
+  return <ProductPageClient product={product} relatedProducts={related} />;
 }

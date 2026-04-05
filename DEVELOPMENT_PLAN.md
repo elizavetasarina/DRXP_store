@@ -155,12 +155,54 @@
 
 ---
 
-# PHASE 10 — Performance & SEO
+# PHASE 10 — Sanity CMS (контент + медиа) 🚧
 
-* [x] next.config.ts image domains
-* [ ] metadata для страниц (title, description, og:image)
-* [ ] generateStaticParams для /product/[slug]
-* [ ] Lighthouse 90+
+## Стратегия
+* Sanity.io — headless CMS для контента (товары, лукбук, журнал)
+* Prisma/PostgreSQL — транзакционные данные (заказы, пользователи, промокоды)
+* Studio доступен по адресу `/studio`
+
+## Шаг 1 — Инфраструктура ✅
+* [x] установлены `next-sanity`, `@sanity/image-url`, `@sanity/vision`
+* [x] `src/sanity/client.ts` — Sanity client (читает env переменные)
+* [x] `src/sanity/lib/image.ts` — helper `urlFor()` для image URL
+* [x] `src/sanity/lib/queries.ts` — GROQ запросы (products, lookbook, journal)
+* [x] `src/sanity/schemaTypes/product.ts` — схема товара
+* [x] `src/sanity/schemaTypes/category.ts` — схема категории
+* [x] `src/sanity/schemaTypes/lookbook.ts` — схема лукбука
+* [x] `src/sanity/schemaTypes/journal.ts` — схема журнала
+* [x] `src/sanity/sanity.config.ts` — конфиг Studio
+* [x] `src/app/studio/[[...tool]]/page.tsx` — Studio route
+* [x] `src/app/studio/layout.tsx` — layout с metadata
+* [x] `next.config.ts` — добавлен `cdn.sanity.io` в remotePatterns
+* [x] `.env.local` — добавлены `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`
+* [x] билд проходит без ошибок
+
+## Шаг 2 — Настройка проекта ✅
+* [x] Создать проект на sanity.io
+* [x] Заполнить `NEXT_PUBLIC_SANITY_PROJECT_ID` в `.env.local` (projectId: uflp0sza)
+* [ ] Добавить `NEXT_PUBLIC_SANITY_PROJECT_ID` в Railway env vars
+* [x] `/studio` работает (исключён из middleware matcher)
+
+## Шаг 3 — Подключение страниц к Sanity ✅
+* [x] `src/types/sanity.ts` — TypeScript типы для Sanity данных
+* [x] `src/lib/sanity-adapters.ts` — адаптер Sanity → Product type
+* [x] `src/app/[locale]/(shop)/shop/page.tsx` → server component + `getAllProducts()`
+* [x] `src/app/[locale]/(shop)/shop/ShopClient.tsx` — client часть с фильтрами
+* [x] `src/app/[locale]/(shop)/product/[slug]/page.tsx` → server + `getProductBySlug()` + `generateStaticParams`
+* [x] `src/app/[locale]/(shop)/product/[slug]/ProductPageClient.tsx` — client часть
+* [x] `src/components/shop/ProductCard.tsx` → `<Image>` с реальными фото
+* [x] `src/components/product/ImageGallery.tsx` → `<Image>` с thumbnails
+* [x] `src/app/[locale]/(content)/lookbook/page.tsx` → `getAllLookbooks()` + реальные фото
+* [x] `src/app/[locale]/(content)/lookbook/[slug]/page.tsx` → `getLookbookBySlug()` + `generateStaticParams`
+* [x] `src/app/[locale]/(content)/journal/page.tsx` → `getAllJournalPosts()` + реальные фото
+* [x] `src/app/[locale]/(content)/journal/[slug]/page.tsx` → `getJournalPostBySlug()` + `generateStaticParams`
+* [x] билд проходит без ошибок (38 страниц + /studio)
+
+## Следующие шаги
+* [ ] Добавить `NEXT_PUBLIC_SANITY_PROJECT_ID` в Railway env vars
+* [ ] Заполнить контент в `/studio` (товары, лукбук, журнал)
+* [ ] `@portabletext/react` для rich text в статьях журнала (опционально)
 
 ---
 

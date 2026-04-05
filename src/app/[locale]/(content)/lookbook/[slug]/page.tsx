@@ -1,54 +1,34 @@
-"use client";
-
-import { useParams } from "next/navigation";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { motion } from "framer-motion";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
+import { getLookbookBySlug, getAllLookbooks } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { SanityLookbook } from "@/types/sanity";
 
-const collectionData: Record<string, { name: string; images: { aspect: string }[] }> = {
-  "ss25-drop-01": {
-    name: "SS25 DROP 01",
-    images: [
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[1/1]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[1/1]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[4/5]" },
-    ],
-  },
-  essentials: {
-    name: "ESSENTIALS",
-    images: [
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[1/1]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[1/1]" },
-    ],
-  },
-  archive: {
-    name: "ARCHIVE",
-    images: [
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[1/1]" },
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[1/1]" },
-      { aspect: "aspect-[4/5]" },
-      { aspect: "aspect-[3/4]" },
-      { aspect: "aspect-[1/1]" },
-    ],
-  },
-};
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
-export default function LookbookCollectionPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const collection = collectionData[slug] ?? { name: slug?.toUpperCase() ?? "", images: [] };
+export async function generateStaticParams() {
+  const lookbooks: SanityLookbook[] = await getAllLookbooks();
+  const locales = ["ru", "en"];
+  return locales.flatMap((locale) =>
+    lookbooks.map((l) => ({ locale, slug: l.slug }))
+  );
+}
+
+export default async function LookbookCollectionPage({ params }: Props) {
+  const { slug } = await params;
+  const collection: SanityLookbook | null = await getLookbookBySlug(slug);
+
+  if (!collection) {
+    return (
+      <main className="min-h-screen bg-black text-white flex items-center justify-center pt-32">
+        <p className="text-sm tracking-widest uppercase text-white/40">Collection not found</p>
+      </main>
+    );
+  }
 
   return (
     <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
@@ -63,30 +43,36 @@ export default function LookbookCollectionPage() {
 
       <AnimatedSection>
         <SplitText
-          text={collection.name}
+          text={collection.title}
           as="h1"
           className="text-5xl md:text-7xl font-bold tracking-tighter mb-16"
         />
       </AnimatedSection>
 
       <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
-        {collection.images.map((img, i) => (
-          <AnimatedSection key={i} delay={i * 0.08}>
-            <motion.div
-              className={`relative ${img.aspect} overflow-hidden break-inside-avoid bg-gradient-to-br from-neutral-900 to-neutral-800`}
-              initial={{ clipPath: "inset(0 100% 0 0)" }}
-              whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, delay: i * 0.05, ease: [0.25, 1, 0.5, 1] }}
-            >
-              <div className="absolute inset-0 flex items-end p-4">
-                <span className="text-[10px] tracking-widest text-white/30">
-                  LOOK {String(i + 1).padStart(2, "0")}
-                </span>
+        {(collection.images ?? []).map((img, i) => {
+          const url = img.asset ? urlFor(img).width(800).url() : null;
+          return (
+            <AnimatedSection key={i} delay={i * 0.08}>
+              <div className="relative aspect-[3/4] overflow-hidden break-inside-avoid bg-gradient-to-br from-neutral-900 to-neutral-800">
+                {url && (
+                  <Image
+                    src={url}
+                    alt={img.alt ?? `Look ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-end p-4">
+                  <span className="text-[10px] tracking-widest text-white/30">
+                    LOOK {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
               </div>
-            </motion.div>
-          </AnimatedSection>
-        ))}
+            </AnimatedSection>
+          );
+        })}
       </div>
     </main>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
@@ -48,10 +49,22 @@ export function ProductCard({ product }: Props) {
     });
   };
 
+  const coverImage = product.images[0];
+
   return (
     <Link href={`/product/${product.slug}`} className="group block">
       <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
-        <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 bg-gradient-to-br from-neutral-900 to-neutral-800" />
+        {coverImage?.url ? (
+          <Image
+            src={coverImage.url}
+            alt={coverImage.alt ?? product.name}
+            fill
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            sizes="(max-width: 768px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 bg-gradient-to-br from-neutral-900 to-neutral-800" />
+        )}
 
         {/* Wishlist */}
         <button

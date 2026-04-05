@@ -1,18 +1,14 @@
-"use client";
-
-import { useState } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { motion } from "framer-motion";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
+import { getAllLookbooks } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { SanityLookbook } from "@/types/sanity";
 
-const collections = [
-  { slug: "ss25-drop-01", name: "SS25 DROP 01", items: 12 },
-  { slug: "essentials", name: "ESSENTIALS", items: 8 },
-  { slug: "archive", name: "ARCHIVE", items: 16 },
-];
+export default async function LookbookPage() {
+  const lookbooks: SanityLookbook[] = await getAllLookbooks();
 
-export default function LookbookPage() {
   return (
     <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
       <AnimatedSection>
@@ -23,34 +19,45 @@ export default function LookbookPage() {
         />
       </AnimatedSection>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {collections.map((col, i) => (
-          <AnimatedSection key={col.slug} delay={i * 0.15}>
-            <Link href={`/lookbook/${col.slug}`} className="group block">
-              <div className="relative aspect-[3/4] overflow-hidden">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-neutral-900 to-neutral-800"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-                />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <motion.span
-                    className="text-2xl md:text-3xl font-bold tracking-tight"
-                    initial={{ y: 0 }}
-                    whileHover={{ y: -4 }}
-                  >
-                    {col.name}
-                  </motion.span>
-                  <span className="mt-2 text-xs tracking-widest text-white/50 group-hover:text-white/80 transition-colors">
-                    {col.items} LOOKS
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </AnimatedSection>
-        ))}
-      </div>
+      {lookbooks.length === 0 ? (
+        <p className="text-white/30 text-sm tracking-widest uppercase">No collections yet</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {lookbooks.map((col, i) => {
+            const cover = col.images?.[0];
+            const coverUrl = cover?.asset ? urlFor(cover).width(600).url() : null;
+
+            return (
+              <AnimatedSection key={col._id} delay={i * 0.15}>
+                <Link href={`/lookbook/${col.slug}`} className="group block">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+                    {coverUrl && (
+                      <Image
+                        src={coverUrl}
+                        alt={cover?.alt ?? col.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-2xl md:text-3xl font-bold tracking-tight">
+                        {col.title}
+                      </span>
+                      {col.images && (
+                        <span className="mt-2 text-xs tracking-widest text-white/50 group-hover:text-white/80 transition-colors">
+                          {col.images.length} LOOKS
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </AnimatedSection>
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }
