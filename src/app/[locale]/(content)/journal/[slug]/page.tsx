@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
 const articles: Record<string, { title: string; date: string; readTime: string }> = {

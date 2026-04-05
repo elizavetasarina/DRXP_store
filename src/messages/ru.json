@@ -112,7 +112,9 @@
     "wishlistTitle": "ИЗБРАННОЕ",
     "wishlistEmpty": "Список избранного пуст",
     "addToCart": "В КОРЗИНУ",
-    "remove": "УДАЛИТЬ"
+    "remove": "УДАЛИТЬ",
+    "itemCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товара}}",
+    "orderTotal": "ИТОГО"
   },
   "checkoutForm": {
     "shippingAddress": "Адрес доставки",

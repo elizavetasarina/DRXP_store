@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
+  const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,7 +27,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res?.error) {
-      setError("Неверный email или пароль");
+      setError(t("wrongCredentials"));
     } else {
       router.push("/account");
     }
@@ -36,7 +37,7 @@ export default function LoginPage() {
     <div className="min-h-screen pt-40 pb-20 px-6 flex justify-center">
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-8">
         <h1 className="text-3xl tracking-[0.2em] font-light text-center">
-          SIGN IN
+          {t("signInTitle")}
         </h1>
 
         {error && (
@@ -46,7 +47,7 @@ export default function LoginPage() {
         <div className="space-y-4">
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t("email")}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +55,7 @@ export default function LoginPage() {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t("password")}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -67,13 +68,13 @@ export default function LoginPage() {
           disabled={loading}
           className="w-full bg-white text-black py-4 text-sm tracking-[0.2em] font-medium hover:bg-white/90 transition-colors disabled:opacity-50"
         >
-          {loading ? "..." : "SIGN IN"}
+          {loading ? "..." : t("signInButton")}
         </button>
 
         <p className="text-center text-sm text-white/40">
-          Don&apos;t have an account?{" "}
+          {t("noAccount")}{" "}
           <Link href="/register" className="text-white/70 hover:text-white underline underline-offset-4 transition-colors">
-            Create one
+            {t("createOne")}
           </Link>
         </p>
       </form>

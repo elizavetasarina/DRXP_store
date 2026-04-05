@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { PRODUCTS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";

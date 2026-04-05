@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { SlidersHorizontal, X } from "lucide-react";
 import { PRODUCTS } from "@/lib/constants";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -10,6 +11,7 @@ import { SortDropdown } from "@/components/shop/SortDropdown";
 import type { Product } from "@/types/product";
 
 export default function ShopPage() {
+  const t = useTranslations("shop");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [sort, setSort] = useState("newest");
@@ -65,7 +67,7 @@ export default function ShopPage() {
         {/* Title */}
         <AnimatedSection>
           <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-12">
-            SHOP
+            {t("title")}
           </h1>
         </AnimatedSection>
 
@@ -93,10 +95,10 @@ export default function ShopPage() {
                   className="md:hidden flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-white/60 hover:text-white transition-colors"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  Filters
+                  {t("filters")}
                 </button>
                 <span className="text-xs tracking-wider text-white/40 uppercase">
-                  {filtered.length} product{filtered.length !== 1 ? "s" : ""}
+                  {t("productCount", { count: filtered.length })}
                 </span>
               </div>
               <SortDropdown value={sort} onChange={setSort} />

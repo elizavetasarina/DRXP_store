@@ -32,7 +32,10 @@
       "Bash(ls D:/GitHub/DRXP_store/.env*)",
       "Bash(find \"D:/GitHub/DRXP_store/src/app/\\(account\\)/account\" -type f -name \"*.tsx\" -o -name \"*.ts\")",
       "Bash(node -e \"require\\(''next-intl''\\); console.log\\(''ok''\\)\")",
-      "Bash(find D:/GitHub/DRXP_store/src/app/[locale] -name \"*.tsx\")"
+      "Bash(find D:/GitHub/DRXP_store/src/app/[locale] -name \"*.tsx\")",
+      "Bash(do)",
+      "Bash(sed -i 's|import Link from \"\"next/link\"\";|import { Link } from \"\"@/i18n/navigation\"\";|g' \"$f\")",
+      "Bash(echo \"Done: $f\")"
     ]
   }
 }

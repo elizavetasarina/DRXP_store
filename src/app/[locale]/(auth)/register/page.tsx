@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const t = useTranslations("auth");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +20,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Пароли не совпадают");
+      setError(t("passwordMismatch"));
       return;
     }
 
@@ -33,7 +34,7 @@ export default function RegisterPage() {
 
     if (!res.ok) {
       const data = await res.json();
-      setError(data.message || "Ошибка регистрации");
+      setError(data.message || t("registrationError"));
       setLoading(false);
       return;
     }
@@ -46,7 +47,7 @@ export default function RegisterPage() {
     <div className="min-h-screen pt-40 pb-20 px-6 flex justify-center">
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-8">
         <h1 className="text-3xl tracking-[0.2em] font-light text-center">
-          CREATE ACCOUNT
+          {t("createAccountTitle")}
         </h1>
 
         {error && (
@@ -56,14 +57,14 @@ export default function RegisterPage() {
         <div className="space-y-4">
           <input
             type="text"
-            placeholder="Full Name"
+            placeholder={t("fullName")}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full bg-transparent border border-white/10 px-4 py-3 text-sm tracking-wider placeholder:text-white/30 focus:border-white/30 focus:outline-none transition-colors"
           />
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t("email")}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +72,7 @@ export default function RegisterPage() {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t("password")}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -79,7 +80,7 @@ export default function RegisterPage() {
           />
           <input
             type="password"
-            placeholder="Confirm Password"
+            placeholder={t("confirmPassword")}
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -92,13 +93,13 @@ export default function RegisterPage() {
           disabled={loading}
           className="w-full bg-white text-black py-4 text-sm tracking-[0.2em] font-medium hover:bg-white/90 transition-colors disabled:opacity-50"
         >
-          {loading ? "..." : "CREATE ACCOUNT"}
+          {loading ? "..." : t("createAccountButton")}
         </button>
 
         <p className="text-center text-sm text-white/40">
-          Already have an account?{" "}
+          {t("haveAccount")}{" "}
           <Link href="/login" className="text-white/70 hover:text-white underline underline-offset-4 transition-colors">
-            Sign in
+            {t("signIn")}
           </Link>
         </p>
       </form>

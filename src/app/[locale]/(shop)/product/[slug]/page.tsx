@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PRODUCTS } from "@/lib/constants";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { ImageGallery } from "@/components/product/ImageGallery";
@@ -12,6 +13,7 @@ import { RelatedProducts } from "@/components/product/RelatedProducts";
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
+  const t = useTranslations("product");
   const product = PRODUCTS.find((p) => p.slug === slug);
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -33,7 +35,7 @@ export default function ProductPage() {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center pt-32">
         <p className="text-sm tracking-widest uppercase text-white/40">
-          Product not found
+          {t("notFound")}
         </p>
       </main>
     );

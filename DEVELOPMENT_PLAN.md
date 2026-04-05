@@ -126,7 +126,36 @@
 
 ---
 
-# PHASE 9 — Performance & SEO
+# PHASE 9 — i18n (Russian + English) ✅
+
+## Стратегия
+* URL-префикс всегда: `/ru/...` и `/en/...`
+* Русский — язык по умолчанию (`/` редиректит на `/ru/`)
+* Переключатель в Footer — рабочий
+
+## Выполнено
+* [x] установлен `next-intl`
+* [x] `src/i18n/routing.ts` — `defineRouting` (locales: ru, en, defaultLocale: ru)
+* [x] `src/i18n/request.ts` — `getRequestConfig` с динамической загрузкой переводов
+* [x] `src/i18n/navigation.ts` — `createNavigation` (Link, redirect, useRouter, usePathname)
+* [x] `next.config.ts` — `createNextIntlPlugin`
+* [x] `src/messages/ru.json` — ~120+ строк, все namespace-ы
+* [x] `src/messages/en.json` — ~120+ строк, все namespace-ы
+* [x] страницы перемещены в `src/app/[locale]/`
+* [x] `src/app/[locale]/layout.tsx` — `NextIntlClientProvider`, кириллические шрифты, `generateStaticParams`
+* [x] `src/app/layout.tsx` — минимальный pass-through
+* [x] `src/middleware.ts` — next-intl + NextAuth v5 в одном middleware (заменил proxy.ts)
+* [x] все `next/link` → `@/i18n/navigation` (компоненты + страницы)
+* [x] все `useRouter/redirect` из `next/navigation` → `@/i18n/navigation` (где применимо)
+* [x] `useTranslations` добавлен во все клиентские компоненты и страницы
+* [x] `getTranslations` добавлен в серверные компоненты (orders/page, home/page)
+* [x] Footer switcher — `router.replace(pathname, { locale })` — рабочий
+* [x] `src/lib/auth.ts` — `signIn: "/ru/login"`, `error: "/ru/login"`
+* [x] билд проходит без ошибок TypeScript (38 страниц)
+
+---
+
+# PHASE 10 — Performance & SEO
 
 * [x] next.config.ts image domains
 * [ ] metadata для страниц (title, description, og:image)
@@ -135,7 +164,16 @@
 
 ---
 
-# PHASE 10 — Payments
+# PHASE 11 — Performance & SEO
+
+* [x] next.config.ts image domains
+* [ ] metadata для страниц (title, description, og:image)
+* [ ] generateStaticParams для /product/[slug]
+* [ ] Lighthouse 90+
+
+---
+
+# PHASE 12 — Payments
 
 * [ ] YooKassa integration
 * [ ] CloudPayments integration
@@ -143,7 +181,7 @@
 
 ---
 
-# PHASE 11 — Admin
+# PHASE 13 — Admin
 
 * [ ] admin products panel
 * [ ] admin orders panel

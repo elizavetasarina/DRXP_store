@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils";
 
 interface OrderItem {
@@ -31,16 +32,17 @@ const STATUS_STYLES: Record<string, string> = {
 
 export function OrderList({ orders }: { orders: Order[] }) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const t = useTranslations("account");
 
   if (orders.length === 0) {
     return (
       <>
-        <p className="text-white/40 text-sm tracking-wider mb-6">No orders yet</p>
+        <p className="text-white/40 text-sm tracking-wider mb-6">{t("noOrders")}</p>
         <Link
           href="/shop"
           className="text-sm tracking-[0.15em] underline underline-offset-4 text-white/60 hover:text-white transition-colors"
         >
-          BROWSE SHOP
+          {t("browseShop")}
         </Link>
       </>
     );
@@ -59,7 +61,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                 {order.id.slice(0, 8).toUpperCase()}
               </span>
               <span className="text-xs text-white/30">
-                {new Date(order.createdAt).toLocaleDateString("ru-RU")}
+                {new Date(order.createdAt).toLocaleDateString()}
               </span>
             </div>
             <div className="flex items-center gap-6">
@@ -67,7 +69,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                 {order.status}
               </span>
               <span className="text-sm text-white/60">
-                {order.items.length} item{order.items.length !== 1 ? "s" : ""}
+                {t("itemCount", { count: order.items.length })}
               </span>
               <span className="text-sm tracking-wider">
                 {formatPrice(order.total)}
@@ -86,7 +88,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                 </div>
               ))}
               <div className="pt-2 border-t border-white/5 flex justify-between text-sm">
-                <span className="text-white/40 tracking-wider">TOTAL</span>
+                <span className="text-white/40 tracking-wider">{t("orderTotal")}</span>
                 <span>{formatPrice(order.total)}</span>
               </div>
             </div>

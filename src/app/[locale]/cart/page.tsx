@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/lib/utils";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
 export default function CartPage() {
+  const t = useTranslations("cart");
   const items = useCartStore((s) => s.items);
   const removeItem = useCartStore((s) => s.removeItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
@@ -56,12 +58,12 @@ export default function CartPage() {
     <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
       <AnimatedSection>
         <div className="flex items-center justify-between mb-12">
-          <h1 className="text-6xl font-bold tracking-tight">CART</h1>
+          <h1 className="text-6xl font-bold tracking-tight">{t("title")}</h1>
           <Link
             href="/shop"
             className="text-sm text-white/50 hover:text-white transition-colors tracking-[0.15em] uppercase"
           >
-            Continue Shopping
+            {t("continueShopping")}
           </Link>
         </div>
       </AnimatedSection>
@@ -69,12 +71,12 @@ export default function CartPage() {
       {items.length === 0 ? (
         <AnimatedSection>
           <div className="flex flex-col items-center justify-center py-32 gap-6">
-            <p className="text-white/50 text-lg">Your cart is empty</p>
+            <p className="text-white/50 text-lg">{t("empty")}</p>
             <Link
               href="/shop"
               className="bg-white text-black px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-colors"
             >
-              Shop Now
+              {t("shopNow")}
             </Link>
           </div>
         </AnimatedSection>
@@ -102,7 +104,7 @@ export default function CartPage() {
                         <button
                           onClick={() => removeItem(item.productId, item.variantId)}
                           className="text-white/30 hover:text-white transition-colors text-lg leading-none"
-                          aria-label="Remove item"
+                          aria-label={t("continueShopping")}
                         >
                           &times;
                         </button>
@@ -156,12 +158,12 @@ export default function CartPage() {
             <AnimatedSection>
               <div className="bg-neutral-950 border border-white/5 p-6">
                 <h2 className="text-sm font-medium tracking-[0.15em] uppercase mb-6">
-                  Order Summary
+                  {t("orderSummary")}
                 </h2>
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-white/50">Subtotal</span>
+                    <span className="text-white/50">{t("subtotal")}</span>
                     <span>{formatPrice(subtotal)}</span>
                   </div>
 
@@ -169,7 +171,7 @@ export default function CartPage() {
                   {promoCode ? (
                     <div className="flex justify-between items-center">
                       <span className="text-white/50">
-                        Promo ({promoCode.code})
+                        {t("promoApplied", { code: promoCode.code })}
                       </span>
                       <div className="flex items-center gap-2">
                         <span className="text-green-400">
@@ -190,7 +192,7 @@ export default function CartPage() {
                           type="text"
                           value={promoInput}
                           onChange={(e) => setPromoInput(e.target.value)}
-                          placeholder="Promo code"
+                          placeholder={t("promoCode")}
                           className="flex-1 bg-transparent border border-white/10 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-white/30"
                         />
                         <button
@@ -198,7 +200,7 @@ export default function CartPage() {
                           disabled={promoLoading}
                           className="border border-white/10 px-4 py-3 text-sm text-white/70 hover:text-white hover:border-white/30 transition-colors tracking-[0.1em] uppercase disabled:opacity-50"
                         >
-                          {promoLoading ? "..." : "Apply"}
+                          {promoLoading ? "..." : t("apply")}
                         </button>
                       </div>
                       {promoError && (
@@ -208,7 +210,7 @@ export default function CartPage() {
                   )}
 
                   <div className="border-t border-white/10 pt-3 mt-3 flex justify-between font-medium">
-                    <span>Total</span>
+                    <span>{t("total")}</span>
                     <span>{formatPrice(total)}</span>
                   </div>
                 </div>
@@ -217,7 +219,7 @@ export default function CartPage() {
                   href="/checkout"
                   className="block w-full bg-white text-black text-center py-4 mt-6 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-colors"
                 >
-                  Proceed to Checkout
+                  {t("proceedToCheckout")}
                 </Link>
               </div>
             </AnimatedSection>
