@@ -35,7 +35,8 @@
       "Bash(find D:/GitHub/DRXP_store/src/app/[locale] -name \"*.tsx\")",
       "Bash(do)",
       "Bash(sed -i 's|import Link from \"\"next/link\"\";|import { Link } from \"\"@/i18n/navigation\"\";|g' \"$f\")",
-      "Bash(echo \"Done: $f\")"
+      "Bash(echo \"Done: $f\")",
+      "Bash(head -20 grep -n \"src.*image\\\\|Image.*src\\\\|item\\\\.image\\\\|product\\\\.image\" D:/GitHub/DRXP_store/src/components/shop/ProductCard.tsx)"
     ]
   }
 }

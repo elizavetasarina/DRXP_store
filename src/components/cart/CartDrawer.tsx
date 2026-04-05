@@ -82,13 +82,15 @@ export default function CartDrawer() {
                     <div key={`${item.productId}-${item.variantId}`} className="flex gap-4 px-6 py-5">
                       {/* Image */}
                       <div className="relative w-20 h-24 bg-neutral-900 flex-shrink-0 overflow-hidden">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                          sizes="80px"
-                        />
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        ) : null}
                       </div>
 
                       {/* Details */}
