@@ -8,7 +8,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const products = await getAllProducts();
+  const products = await getAllProducts("ru");
   const locales = ["ru", "en"];
   return locales.flatMap((locale) =>
     products.map((p: { slug: string }) => ({ locale, slug: p.slug }))
@@ -16,9 +16,9 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const t = await getTranslations("product");
-  const raw = await getProductBySlug(slug);
+  const raw = await getProductBySlug(slug, locale);
 
   if (!raw) {
     return (
@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: Props) {
   const product = adaptSanityProduct(raw);
 
   // Fetch related products from same category
-  const allRaw = await getAllProducts();
+  const allRaw = await getAllProducts(locale);
   const related = adaptSanityProducts(
     allRaw.filter((p: { _id: string; categorySlug?: string }) =>
       p._id !== raw._id && p.categorySlug === raw.categorySlug

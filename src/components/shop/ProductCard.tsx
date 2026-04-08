@@ -57,7 +57,7 @@ export function ProductCard({ product }: Props) {
         {coverImage?.url ? (
           <Image
             src={coverImage.url}
-            alt={coverImage.alt ?? product.name}
+            alt={coverImage.alt || product.name || ""}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             sizes="(max-width: 768px) 50vw, 25vw"

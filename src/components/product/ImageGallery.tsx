@@ -19,7 +19,7 @@ export function ImageGallery({ images }: Props) {
         {current?.url ? (
           <Image
             src={current.url}
-            alt={current.alt ?? "Product image"}
+            alt={current.alt || "Product image"}
             fill
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 55vw"
@@ -44,7 +44,7 @@ export function ImageGallery({ images }: Props) {
               {img.url && (
                 <Image
                   src={img.url}
-                  alt={img.alt ?? `View ${i + 1}`}
+                  alt={img.alt || `View ${i + 1}`}
                   fill
                   className="object-cover"
                   sizes="64px"

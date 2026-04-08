@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getFeaturedProducts } from "@/sanity/lib/queries";
@@ -13,7 +14,8 @@ interface SanityFeatured {
 }
 
 export async function FeaturedCollection() {
-  const featured: SanityFeatured[] = await getFeaturedProducts();
+  const locale = await getLocale();
+  const featured: SanityFeatured[] = await getFeaturedProducts(locale);
 
   if (!featured || featured.length === 0) return null;
 
@@ -45,7 +47,7 @@ export async function FeaturedCollection() {
                   {cover?.url && (
                     <Image
                       src={cover.url}
-                      alt={cover.alt ?? product.name}
+                      alt={cover.alt || product.name || ""}
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 33vw"

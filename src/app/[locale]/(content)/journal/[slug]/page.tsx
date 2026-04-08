@@ -2,14 +2,22 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getJournalPostBySlug, getAllJournalPosts } from "@/sanity/lib/queries";
-import type { SanityJournalPost } from "@/types/sanity";
+
+interface JournalPost {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  publishedAt?: string;
+  coverImage?: { url?: string; alt?: string };
+}
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
-  const posts: SanityJournalPost[] = await getAllJournalPosts();
+  const posts: JournalPost[] = await getAllJournalPosts("ru");
   const locales = ["ru", "en"];
   return locales.flatMap((locale) =>
     posts.map((p) => ({ locale, slug: p.slug }))
@@ -17,8 +25,8 @@ export async function generateStaticParams() {
 }
 
 export default async function JournalArticlePage({ params }: Props) {
-  const { slug } = await params;
-  const post: SanityJournalPost | null = await getJournalPostBySlug(slug);
+  const { slug, locale } = await params;
+  const post: JournalPost | null = await getJournalPostBySlug(slug, locale);
 
   if (!post) {
     return (
@@ -59,7 +67,7 @@ export default async function JournalArticlePage({ params }: Props) {
             {post.coverImage?.url && (
               <Image
                 src={post.coverImage.url}
-                alt={post.coverImage.alt ?? post.title}
+                alt={post.coverImage.alt || post.title || ""}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 800px"

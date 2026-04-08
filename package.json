@@ -47,6 +47,7 @@
     "pg": "^8.20.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sanity-plugin-internationalized-array": "^5.1.0",
     "tailwind-merge": "^3.5.0",
     "zustand": "^5.0.12"
   },

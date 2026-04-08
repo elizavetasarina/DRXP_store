@@ -8,14 +8,19 @@ export const lookbookSchema = defineType({
     defineField({
       name: "title",
       title: "Title",
-      type: "string",
+      type: "internationalizedArrayString",
       validation: (R) => R.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: { source: "title" },
+      options: {
+        source: (doc) => {
+          const t = (doc as { title?: { _key: string; value: string }[] }).title;
+          return t?.find((n) => n._key === "ru")?.value ?? t?.[0]?.value ?? "";
+        },
+      },
       validation: (R) => R.required(),
     }),
     defineField({
@@ -27,10 +32,10 @@ export const lookbookSchema = defineType({
           type: "object",
           fields: [
             { name: "asset", title: "Image", type: "image", options: { hotspot: true } },
-            { name: "alt", title: "Alt text", type: "string" },
+            { name: "alt", title: "Alt text", type: "internationalizedArrayString" },
           ],
           preview: {
-            select: { media: "asset", title: "alt" },
+            select: { media: "asset", title: "alt.0.value" },
           },
         },
       ],
@@ -38,8 +43,9 @@ export const lookbookSchema = defineType({
   ],
   preview: {
     select: {
-      title: "title",
+      title: "title.0.value",
       media: "images.0.asset",
     },
+    prepare: ({ title, media }) => ({ title: title ?? "Untitled", media }),
   },
 });

@@ -8,14 +8,19 @@ export const categorySchema = defineType({
     defineField({
       name: "name",
       title: "Name",
-      type: "string",
+      type: "internationalizedArrayString",
       validation: (R) => R.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: { source: "name" },
+      options: {
+        source: (doc) => {
+          const name = (doc as { name?: { _key: string; value: string }[] }).name;
+          return name?.find((n) => n._key === "ru")?.value ?? name?.[0]?.value ?? "";
+        },
+      },
       validation: (R) => R.required(),
     }),
     defineField({

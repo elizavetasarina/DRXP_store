@@ -2,11 +2,21 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
+import { getLocale } from "next-intl/server";
 import { getAllJournalPosts } from "@/sanity/lib/queries";
-import type { SanityJournalPost } from "@/types/sanity";
+
+interface JournalPost {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  publishedAt?: string;
+  coverImage?: { url?: string; alt?: string };
+}
 
 export default async function JournalPage() {
-  const posts: SanityJournalPost[] = await getAllJournalPosts();
+  const locale = await getLocale();
+  const posts: JournalPost[] = await getAllJournalPosts(locale);
   const [featured, ...rest] = posts;
 
   return (
@@ -30,7 +40,7 @@ export default async function JournalPage() {
                 {featured.coverImage?.url && (
                   <Image
                     src={featured.coverImage.url}
-                    alt={featured.coverImage.alt ?? featured.title}
+                    alt={featured.coverImage.alt || featured.title || ""}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     sizes="100vw"
@@ -66,7 +76,7 @@ export default async function JournalPage() {
                     {post.coverImage?.url && (
                       <Image
                         src={post.coverImage.url}
-                        alt={post.coverImage.alt ?? post.title}
+                        alt={post.coverImage.alt || post.title || ""}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"

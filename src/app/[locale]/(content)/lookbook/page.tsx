@@ -1,13 +1,20 @@
 import Image from "next/image";
+import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getAllLookbooks } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
-import type { SanityLookbook } from "@/types/sanity";
+
+interface LookbookItem {
+  _id: string;
+  title: string;
+  slug: string;
+  images?: { url?: string; alt?: string }[];
+}
 
 export default async function LookbookPage() {
-  const lookbooks: SanityLookbook[] = await getAllLookbooks();
+  const locale = await getLocale();
+  const lookbooks: LookbookItem[] = await getAllLookbooks(locale);
 
   return (
     <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
@@ -25,7 +32,7 @@ export default async function LookbookPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {lookbooks.map((col, i) => {
             const cover = col.images?.[0];
-            const coverUrl = cover?.asset ? urlFor(cover).width(600).url() : null;
+            const coverUrl = cover?.url ?? null;
 
             return (
               <AnimatedSection key={col._id} delay={i * 0.15}>
@@ -34,7 +41,7 @@ export default async function LookbookPage() {
                     {coverUrl && (
                       <Image
                         src={coverUrl}
-                        alt={cover?.alt ?? col.title}
+                        alt={cover?.alt || col.title || ""}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 33vw"

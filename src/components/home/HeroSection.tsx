@@ -1,14 +1,31 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { SplitText } from "@/components/shared/SplitText";
 import { MagneticButton } from "@/components/shared/MagneticButton";
 import { useTranslations } from "next-intl";
 
-export function HeroSection() {
+interface Props {
+  bgImage?: string | null;
+  taglineOverride?: string | null;
+  ctaOverride?: string | null;
+}
+
+export function HeroSection({ bgImage, taglineOverride, ctaOverride }: Props = {}) {
   const t = useTranslations("hero");
   return (
     <section className="relative h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
+      {bgImage && (
+        <Image
+          src={bgImage}
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-40"
+          sizes="100vw"
+        />
+      )}
       {/* Background noise texture overlay */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMSIvPjwvc3ZnPg==')]" />
 
@@ -25,7 +42,7 @@ export function HeroSection() {
           transition={{ delay: 0.8, duration: 1 }}
           className="text-sm tracking-[0.4em] text-white/50 uppercase"
         >
-          {t("tagline")}
+          {taglineOverride ?? t("tagline")}
         </motion.p>
 
         <motion.div
@@ -38,7 +55,7 @@ export function HeroSection() {
             href="/shop"
             className="inline-block border border-white/20 px-10 py-4 text-sm tracking-[0.2em] uppercase text-white transition-colors duration-300 hover:bg-white hover:text-black"
           >
-            {t("cta")}
+            {ctaOverride ?? t("cta")}
           </MagneticButton>
         </motion.div>
       </div>

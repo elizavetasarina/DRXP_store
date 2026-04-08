@@ -8,21 +8,25 @@ export const productSchema = defineType({
     defineField({
       name: "name",
       title: "Name",
-      type: "string",
+      type: "internationalizedArrayString",
       validation: (R) => R.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: { source: "name" },
+      options: {
+        source: (doc) => {
+          const name = (doc as { name?: { _key: string; value: string }[] }).name;
+          return name?.find((n) => n._key === "ru")?.value ?? name?.[0]?.value ?? "";
+        },
+      },
       validation: (R) => R.required(),
     }),
     defineField({
       name: "description",
       title: "Description",
-      type: "text",
-      rows: 4,
+      type: "internationalizedArrayText",
     }),
     defineField({
       name: "price",
@@ -53,10 +57,10 @@ export const productSchema = defineType({
           type: "object",
           fields: [
             { name: "asset", title: "Image", type: "image", options: { hotspot: true } },
-            { name: "alt", title: "Alt text", type: "string" },
+            { name: "alt", title: "Alt text", type: "internationalizedArrayString" },
           ],
           preview: {
-            select: { media: "asset", title: "alt" },
+            select: { media: "asset", title: "alt.0.value" },
           },
         },
       ],
@@ -102,13 +106,13 @@ export const productSchema = defineType({
   ],
   preview: {
     select: {
-      title: "name",
+      title: "name.0.value",
       media: "images.0.asset",
       subtitle: "isPublished",
     },
     prepare({ title, media, subtitle }) {
       return {
-        title,
+        title: title ?? "Untitled",
         media,
         subtitle: subtitle ? "Published" : "Draft",
       };

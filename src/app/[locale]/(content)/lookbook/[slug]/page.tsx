@@ -3,15 +3,20 @@ import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getLookbookBySlug, getAllLookbooks } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
-import type { SanityLookbook } from "@/types/sanity";
+
+interface LookbookCollection {
+  _id: string;
+  title: string;
+  slug: string;
+  images?: { url?: string; alt?: string }[];
+}
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
-  const lookbooks: SanityLookbook[] = await getAllLookbooks();
+  const lookbooks: LookbookCollection[] = await getAllLookbooks("ru");
   const locales = ["ru", "en"];
   return locales.flatMap((locale) =>
     lookbooks.map((l) => ({ locale, slug: l.slug }))
@@ -19,8 +24,8 @@ export async function generateStaticParams() {
 }
 
 export default async function LookbookCollectionPage({ params }: Props) {
-  const { slug } = await params;
-  const collection: SanityLookbook | null = await getLookbookBySlug(slug);
+  const { slug, locale } = await params;
+  const collection: LookbookCollection | null = await getLookbookBySlug(slug, locale);
 
   if (!collection) {
     return (
@@ -50,29 +55,26 @@ export default async function LookbookCollectionPage({ params }: Props) {
       </AnimatedSection>
 
       <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
-        {(collection.images ?? []).map((img, i) => {
-          const url = img.asset ? urlFor(img).width(800).url() : null;
-          return (
-            <AnimatedSection key={i} delay={i * 0.08}>
-              <div className="relative aspect-[3/4] overflow-hidden break-inside-avoid bg-gradient-to-br from-neutral-900 to-neutral-800">
-                {url && (
-                  <Image
-                    src={url}
-                    alt={img.alt ?? `Look ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                )}
-                <div className="absolute inset-0 flex items-end p-4">
-                  <span className="text-[10px] tracking-widest text-white/30">
-                    LOOK {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
+        {(collection.images ?? []).map((img, i) => (
+          <AnimatedSection key={i} delay={i * 0.08}>
+            <div className="relative aspect-[3/4] overflow-hidden break-inside-avoid bg-gradient-to-br from-neutral-900 to-neutral-800">
+              {img.url && (
+                <Image
+                  src={img.url}
+                  alt={img.alt || `Look ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              )}
+              <div className="absolute inset-0 flex items-end p-4">
+                <span className="text-[10px] tracking-widest text-white/30">
+                  LOOK {String(i + 1).padStart(2, "0")}
+                </span>
               </div>
-            </AnimatedSection>
-          );
-        })}
+            </div>
+          </AnimatedSection>
+        ))}
       </div>
     </main>
   );

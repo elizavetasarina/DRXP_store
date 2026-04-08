@@ -4,14 +4,15 @@ import { motion } from "framer-motion";
 import { ElementType, useMemo } from "react";
 
 interface Props {
-  text: string;
+  text?: string | null;
   className?: string;
   delay?: number;
   as?: "h1" | "h2" | "h3" | "p" | "span";
 }
 
 export function SplitText({ text, className = "", delay = 0, as: Tag = "p" }: Props) {
-  const characters = useMemo(() => text.split(""), [text]);
+  const safeText = text ?? "";
+  const characters = useMemo(() => safeText.split(""), [safeText]);
 
   const container = {
     hidden: { opacity: 0 },
@@ -42,7 +43,7 @@ export function SplitText({ text, className = "", delay = 0, as: Tag = "p" }: Pr
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      aria-label={text}
+      aria-label={safeText}
     >
       {characters.map((char, i) => (
         <motion.span

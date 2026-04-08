@@ -75,7 +75,7 @@ export function ProductPageClient({ product, relatedProducts }: Props) {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={p.images[0].url}
-                        alt={p.images[0].alt ?? p.name}
+                        alt={p.images[0].alt || p.name || ""}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     )}

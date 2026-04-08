@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,9 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 function ParallaxBlock({
   speed,
   className,
+  image,
 }: {
   speed: number;
   className: string;
+  image?: string | null;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -42,12 +45,20 @@ function ParallaxBlock({
 
   return (
     <div ref={ref} className={className}>
-      <div className="w-full h-full bg-gradient-to-br from-neutral-900 to-neutral-800" />
+      <div className="relative w-full h-full bg-gradient-to-br from-neutral-900 to-neutral-800 overflow-hidden">
+        {image && (
+          <Image src={image} alt="" fill className="object-cover" sizes="50vw" />
+        )}
+      </div>
     </div>
   );
 }
 
-export function ParallaxShowcase() {
+interface Props {
+  images?: (string | null | undefined)[];
+}
+
+export function ParallaxShowcase({ images = [] }: Props) {
   return (
     <section className="py-32 relative overflow-hidden min-h-[80vh]">
       {/* Ghost text behind */}
@@ -59,22 +70,20 @@ export function ParallaxShowcase() {
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-10">
         <div className="relative h-[70vh]">
-          {/* Block 1 - large, left */}
           <ParallaxBlock
             speed={0.2}
             className="absolute left-0 top-[5%] w-[45%] h-[60%]"
+            image={images[0]}
           />
-
-          {/* Block 2 - medium, right offset */}
           <ParallaxBlock
             speed={0.4}
             className="absolute right-[5%] top-[15%] w-[35%] h-[45%]"
+            image={images[1]}
           />
-
-          {/* Block 3 - small, center-bottom */}
           <ParallaxBlock
             speed={0.6}
             className="absolute left-[30%] bottom-[5%] w-[25%] h-[35%]"
+            image={images[2]}
           />
         </div>
       </div>
