@@ -56,7 +56,7 @@ export default async function LocaleLayout({
           <AuthProvider>
             <QueryProvider>
               <AnimationProvider>
-                <CustomCursor />
+                {/* <CustomCursor /> */}
                 <Header />
                 <Navigation />
                 <CartDrawer />

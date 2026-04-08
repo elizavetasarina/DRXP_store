@@ -119,7 +119,7 @@ body {
    Custom Cursor
    ======================================== */
 
-.cursor-dot {
+/* .cursor-dot {
   position: fixed;
   top: 0;
   left: 0;
@@ -164,7 +164,7 @@ body {
   width: 30px;
   height: 30px;
   opacity: 0.8;
-}
+} */
 
 /* ========================================
    Page Transitions

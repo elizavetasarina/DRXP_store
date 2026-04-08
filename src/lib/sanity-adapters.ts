@@ -18,12 +18,19 @@ export function adaptSanityProduct(p: SanityProduct): Product {
     category: p.categorySlug
       ? { id: p.categorySlug, name: p.categoryName ?? "", slug: p.categorySlug }
       : undefined,
-    images: (p.images ?? []).map((img, i) => ({
-      id: img.asset?._ref ?? `img-${i}`,
-      url: img.asset ? urlFor(img).width(800).url() : "",
-      alt: img.alt ?? p.name,
-      position: i,
-    })),
+    images: (p.images ?? [])
+      .map((img, i) => {
+        const url =
+          img?.url ??
+          (img?.asset?._ref ? urlFor(img).width(800).url() : "");
+        return {
+          id: img?.asset?._ref ?? `img-${i}`,
+          url,
+          alt: img?.alt ?? p.name,
+          position: i,
+        };
+      })
+      .filter((img) => !!img.url),
     variants: (p.variants ?? []).map((v) => ({
       id: v._key,
       size: v.size,

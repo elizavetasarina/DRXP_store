@@ -1,9 +1,10 @@
 export interface SanityImageAsset {
-  asset: {
-    _ref: string;
-    _type: "reference";
+  asset?: {
+    _ref?: string;
+    _type?: "reference";
   };
   alt?: string;
+  url?: string;
 }
 
 export interface SanityProductVariant {

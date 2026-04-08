@@ -3,7 +3,6 @@ import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getAllJournalPosts } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
 import type { SanityJournalPost } from "@/types/sanity";
 
 export default async function JournalPage() {
@@ -28,9 +27,9 @@ export default async function JournalPage() {
           <AnimatedSection>
             <Link href={`/journal/${featured.slug}`} className="group block mb-20">
               <div className="relative aspect-[21/9] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
-                {featured.coverImage?.asset && (
+                {featured.coverImage?.url && (
                   <Image
-                    src={urlFor(featured.coverImage).width(1400).url()}
+                    src={featured.coverImage.url}
                     alt={featured.coverImage.alt ?? featured.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -64,9 +63,9 @@ export default async function JournalPage() {
               <AnimatedSection key={post._id} delay={i * 0.1}>
                 <Link href={`/journal/${post.slug}`} className="group block">
                   <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 mb-4">
-                    {post.coverImage?.asset && (
+                    {post.coverImage?.url && (
                       <Image
-                        src={urlFor(post.coverImage).width(800).url()}
+                        src={post.coverImage.url}
                         alt={post.coverImage.alt ?? post.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"

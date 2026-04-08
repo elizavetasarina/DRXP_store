@@ -1,9 +1,12 @@
 import { client } from "../client";
 
+const fetchOptions = { next: { revalidate: 60 } } as const;
+
 // ─── Product queries ──────────────────────────────────────────────────────────
 
 export async function getAllProducts() {
-  return client.fetch(`
+  return client.fetch(
+    `
     *[_type == "product" && isPublished == true] | order(_createdAt desc) {
       _id,
       name,
@@ -15,9 +18,9 @@ export async function getAllProducts() {
       isPublished,
       "categorySlug": category->slug.current,
       "categoryName": category->name,
-      images[] {
-        asset,
-        alt
+      images[]{
+        alt,
+        "url": asset.asset->url
       },
       variants[] {
         _key,
@@ -27,7 +30,10 @@ export async function getAllProducts() {
         sku
       }
     }
-  `);
+  `,
+    {},
+    fetchOptions
+  );
 }
 
 export async function getProductBySlug(slug: string) {
@@ -44,9 +50,9 @@ export async function getProductBySlug(slug: string) {
       isPublished,
       "categorySlug": category->slug.current,
       "categoryName": category->name,
-      images[] {
-        asset,
-        alt
+      images[]{
+        alt,
+        "url": asset.asset->url
       },
       variants[] {
         _key,
@@ -58,24 +64,29 @@ export async function getProductBySlug(slug: string) {
       tags
     }
   `,
-    { slug }
+    { slug },
+    fetchOptions
   );
 }
 
 export async function getFeaturedProducts() {
-  return client.fetch(`
+  return client.fetch(
+    `
     *[_type == "product" && isFeatured == true && isPublished == true] | order(_createdAt desc) [0...4] {
       _id,
       name,
       "slug": slug.current,
       price,
       comparePrice,
-      images[0] {
-        asset,
-        alt
+      images[0...1]{
+        alt,
+        "url": asset.asset->url
       }
     }
-  `);
+  `,
+    {},
+    fetchOptions
+  );
 }
 
 export async function getProductsByCategory(categorySlug: string) {
@@ -87,9 +98,9 @@ export async function getProductsByCategory(categorySlug: string) {
       "slug": slug.current,
       price,
       comparePrice,
-      images[0] {
-        asset,
-        alt
+      images[0...1]{
+        alt,
+        "url": asset.asset->url
       },
       variants[] {
         _key,
@@ -99,24 +110,29 @@ export async function getProductsByCategory(categorySlug: string) {
       }
     }
   `,
-    { categorySlug }
+    { categorySlug },
+    fetchOptions
   );
 }
 
 // ─── Lookbook queries ─────────────────────────────────────────────────────────
 
 export async function getAllLookbooks() {
-  return client.fetch(`
+  return client.fetch(
+    `
     *[_type == "lookbook"] | order(_createdAt desc) {
       _id,
       title,
       "slug": slug.current,
-      images[] {
-        asset,
-        alt
+      images[]{
+        alt,
+        "url": asset.asset->url
       }
     }
-  `);
+  `,
+    {},
+    fetchOptions
+  );
 }
 
 export async function getLookbookBySlug(slug: string) {
@@ -126,32 +142,37 @@ export async function getLookbookBySlug(slug: string) {
       _id,
       title,
       "slug": slug.current,
-      images[] {
-        asset,
-        alt
+      images[]{
+        alt,
+        "url": asset.asset->url
       }
     }
   `,
-    { slug }
+    { slug },
+    fetchOptions
   );
 }
 
 // ─── Journal queries ──────────────────────────────────────────────────────────
 
 export async function getAllJournalPosts() {
-  return client.fetch(`
+  return client.fetch(
+    `
     *[_type == "journal"] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
       excerpt,
       publishedAt,
-      coverImage {
-        asset,
-        alt
+      coverImage{
+        alt,
+        "url": asset.asset->url
       }
     }
-  `);
+  `,
+    {},
+    fetchOptions
+  );
 }
 
 export async function getJournalPostBySlug(slug: string) {
@@ -163,13 +184,14 @@ export async function getJournalPostBySlug(slug: string) {
       "slug": slug.current,
       excerpt,
       publishedAt,
-      coverImage {
-        asset,
-        alt
+      coverImage{
+        alt,
+        "url": asset.asset->url
       },
       body
     }
   `,
-    { slug }
+    { slug },
+    fetchOptions
   );
 }

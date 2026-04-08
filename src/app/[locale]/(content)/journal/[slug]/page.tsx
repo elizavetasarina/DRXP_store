@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getJournalPostBySlug, getAllJournalPosts } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
 import type { SanityJournalPost } from "@/types/sanity";
 
 interface Props {
@@ -57,9 +56,9 @@ export default async function JournalArticlePage({ params }: Props) {
         {/* Cover image */}
         <AnimatedSection>
           <div className="relative w-full aspect-[16/9] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 mb-14">
-            {post.coverImage?.asset && (
+            {post.coverImage?.url && (
               <Image
-                src={urlFor(post.coverImage).width(1200).url()}
+                src={post.coverImage.url}
                 alt={post.coverImage.alt ?? post.title}
                 fill
                 className="object-cover"
