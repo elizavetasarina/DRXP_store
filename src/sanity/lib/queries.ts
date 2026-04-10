@@ -192,7 +192,7 @@ export async function getJournalPostBySlug(slug: string, locale: string = "ru") 
         "alt": ${i18n("alt")},
         "url": asset.asset->url
       },
-      body
+      "body": select($locale == "en" => bodyEn, bodyRu)
     }
   `,
     { slug, locale },

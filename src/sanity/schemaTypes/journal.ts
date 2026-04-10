@@ -4,6 +4,11 @@ export const journalSchema = defineType({
   name: "journal",
   title: "Journal",
   type: "document",
+  groups: [
+    { name: "ru", title: "Русский", default: true },
+    { name: "en", title: "English" },
+    { name: "meta", title: "Meta" },
+  ],
   fields: [
     defineField({
       name: "title",
@@ -38,14 +43,34 @@ export const journalSchema = defineType({
       ],
     }),
     defineField({
-      name: "body",
-      title: "Body",
+      name: "bodyRu",
+      title: "Body (Русский)",
       type: "array",
+      group: "ru",
       of: [
         { type: "block" },
         {
           type: "object",
-          name: "journalImage",
+          name: "journalImageRu",
+          title: "Image",
+          fields: [
+            { name: "asset", title: "Image", type: "image", options: { hotspot: true } },
+            { name: "alt", title: "Alt text", type: "string" },
+            { name: "caption", title: "Caption", type: "string" },
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "bodyEn",
+      title: "Body (English)",
+      type: "array",
+      group: "en",
+      of: [
+        { type: "block" },
+        {
+          type: "object",
+          name: "journalImageEn",
           title: "Image",
           fields: [
             { name: "asset", title: "Image", type: "image", options: { hotspot: true } },
@@ -59,6 +84,7 @@ export const journalSchema = defineType({
       name: "publishedAt",
       title: "Published At",
       type: "datetime",
+      group: "meta",
       initialValue: () => new Date().toISOString(),
     }),
   ],
