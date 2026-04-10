@@ -4,6 +4,7 @@ import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getJournalPostBySlug, getAllJournalPosts } from "@/sanity/lib/queries";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
+import { urlFor } from "@/sanity/lib/image";
 
 interface JournalPost {
   _id: string;
@@ -17,6 +18,32 @@ interface JournalPost {
 
 interface Props {
   params: Promise<{ slug: string; locale: string }>;
+}
+
+/* ── Reusable image block for portable text ── */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function JournalImageBlock({ value }: { value: any }) {
+  const imageUrl = urlFor(value?.asset).width(1200).quality(80).auto("format").url();
+  if (!imageUrl) return null;
+
+  return (
+    <figure className="my-10">
+      <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900">
+        <Image
+          src={imageUrl}
+          alt={value?.alt || ""}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 800px"
+        />
+      </div>
+      {value?.caption && (
+        <figcaption className="mt-3 text-xs tracking-widest text-white/40 text-center">
+          {value.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }
 
 /* ── Portable Text components for journal body ── */
@@ -52,67 +79,9 @@ const ptComponents: PortableTextComponents = {
     ),
   },
   types: {
-    journalImageRu: ({ value }) => (
-      <figure className="my-10">
-        {value?.asset?.asset?.url && (
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900">
-            <Image
-              src={value.asset.asset.url}
-              alt={value.alt || ""}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 800px"
-            />
-          </div>
-        )}
-        {value?.caption && (
-          <figcaption className="mt-3 text-xs tracking-widest text-white/40 text-center">
-            {value.caption}
-          </figcaption>
-        )}
-      </figure>
-    ),
-    journalImageEn: ({ value }) => (
-      <figure className="my-10">
-        {value?.asset?.asset?.url && (
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900">
-            <Image
-              src={value.asset.asset.url}
-              alt={value.alt || ""}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 800px"
-            />
-          </div>
-        )}
-        {value?.caption && (
-          <figcaption className="mt-3 text-xs tracking-widest text-white/40 text-center">
-            {value.caption}
-          </figcaption>
-        )}
-      </figure>
-    ),
-    // fallback for old "journalImage" type (before migration)
-    journalImage: ({ value }) => (
-      <figure className="my-10">
-        {value?.asset?.asset?.url && (
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900">
-            <Image
-              src={value.asset.asset.url}
-              alt={value.alt || ""}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 800px"
-            />
-          </div>
-        )}
-        {value?.caption && (
-          <figcaption className="mt-3 text-xs tracking-widest text-white/40 text-center">
-            {value.caption}
-          </figcaption>
-        )}
-      </figure>
-    ),
+    journalImageRu: JournalImageBlock,
+    journalImageEn: JournalImageBlock,
+    journalImage: JournalImageBlock,
   },
 };
 
