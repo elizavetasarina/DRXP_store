@@ -4,7 +4,7 @@ const fetchOptions = { next: { revalidate: 60 } } as const;
 
 // helper for localized field projection
 const i18n = (field: string) =>
-  `coalesce(${field}[_key == $locale][0].value, ${field}[_key == "ru"][0].value)`;
+  `coalesce(${field}[language == $locale][0].value, ${field}[language == "ru"][0].value)`;
 
 // ─── Product queries ──────────────────────────────────────────────────────────
 
