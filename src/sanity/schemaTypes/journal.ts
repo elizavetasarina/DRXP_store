@@ -14,12 +14,14 @@ export const journalSchema = defineType({
       name: "title",
       title: "Title",
       type: "internationalizedArrayString",
+      group: ["ru", "en"],
       validation: (R) => R.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      group: ["ru", "en", "meta"],
       options: {
         source: (doc) => {
           const t = (doc as { title?: { _key: string; value: string }[] }).title;
@@ -32,11 +34,13 @@ export const journalSchema = defineType({
       name: "excerpt",
       title: "Excerpt",
       type: "internationalizedArrayText",
+      group: ["ru", "en"],
     }),
     defineField({
       name: "coverImage",
       title: "Cover Image",
       type: "object",
+      group: ["ru", "en"],
       fields: [
         { name: "asset", title: "Image", type: "image", options: { hotspot: true } },
         { name: "alt", title: "Alt text", type: "internationalizedArrayString" },
