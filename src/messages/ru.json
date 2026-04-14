@@ -9,9 +9,7 @@
     "home": "ГЛАВНАЯ",
     "shop": "МАГАЗИН",
     "lookbook": "ЛУКБУК",
-    "about": "О НАС",
     "journal": "ЖУРНАЛ",
-    "contact": "КОНТАКТ",
     "closeMenu": "Закрыть меню"
   },
   "header": {
@@ -39,21 +37,22 @@
     "pants": "Брюки",
     "outerwear": "Верхняя одежда",
     "accessories": "Аксессуары",
-    "about": "О нас",
     "lookbook": "Лукбук",
-    "journal": "Журнал",
-    "sizeGuide": "Гид по размерам",
-    "shipping": "Доставка",
-    "returns": "Возвраты"
+    "journal": "Журнал"
   },
   "home": {
     "marquee1": "НОВАЯ КОЛЛЕКЦИЯ SS25 — УЖЕ ДОСТУПНА — БЕСПЛАТНАЯ ДОСТАВКА ОТ 10 000 ₽",
-    "marquee2": "DRXP — СОВРЕМЕННЫЙ СТРИТВИР — С 2024 — МОСКВА"
+    "marquee2": "DRXP — СОВРЕМЕННЫЙ СТРИТВИР — С 2024 — МОСКВА",
+    "featured": "ИЗБРАННОЕ",
+    "selectedPieces": "Отобранные вещи",
+    "craftedWithPrecision": "Сделано с точностью",
+    "view": "Смотреть"
   },
   "shop": {
     "title": "МАГАЗИН",
     "filters": "Фильтры",
-    "productCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товара}}"
+    "productCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товара}}",
+    "noProducts": "Товары не найдены"
   },
   "cart": {
     "title": "КОРЗИНА",
@@ -181,6 +180,37 @@
     "removeFromWishlist": "Убрать из избранного"
   },
   "product": {
-    "notFound": "Товар не найден"
+    "notFound": "Товар не найден",
+    "related": "Похожие"
+  },
+  "variant": {
+    "size": "Размер",
+    "color": "Цвет",
+    "outOfStock": "Нет в наличии"
+  },
+  "sort": {
+    "newest": "Новинки",
+    "priceLowHigh": "Цена: по возрастанию",
+    "priceHighLow": "Цена: по убыванию",
+    "nameAZ": "Название А-Я"
+  },
+  "lookbook": {
+    "title": "ЛУКБУК",
+    "noCollections": "Коллекций пока нет",
+    "looks": "{count} ОБРАЗОВ",
+    "backToLookbook": "НАЗАД К ЛУКБУКУ",
+    "lookNumber": "ОБРАЗ {number}",
+    "notFound": "Коллекция не найдена"
+  },
+  "journal": {
+    "title": "ЖУРНАЛ",
+    "noPosts": "Статей пока нет",
+    "backToJournal": "НАЗАД К ЖУРНАЛУ",
+    "notFound": "Статья не найдена"
+  },
+  "search": {
+    "placeholder": "Поиск товаров...",
+    "noResults": "Товары не найдены",
+    "close": "Закрыть"
   }
 }

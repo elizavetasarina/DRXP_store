@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
@@ -16,14 +17,16 @@ interface Props {
 }
 
 export function CollectionTeaser({ cards = [] }: Props) {
+  const t = useTranslations("home");
+
   if (cards.length === 0) return null;
   return (
-    <section className="py-32 px-6 md:px-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <section className="py-16 md:py-32 px-6 md:px-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {cards.map((card, i) => (
           <AnimatedSection key={i} delay={i * 0.15}>
             <Link href={card.href ?? "#"} className="group block">
-              <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 transition-transform duration-500 group-hover:scale-[0.98]">
+              <div className="relative aspect-[16/10] sm:aspect-[4/5] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 transition-transform duration-500 group-hover:scale-[0.98]">
                 {card.image && (
                   <Image
                     src={card.image}
@@ -35,19 +38,19 @@ export function CollectionTeaser({ cards = [] }: Props) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
+                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-10">
                   {card.subtitle && (
-                    <p className="text-xs tracking-[0.3em] text-white/40 uppercase mb-3">
+                    <p className="text-[10px] md:text-xs tracking-[0.3em] text-white/40 uppercase mb-2 md:mb-3">
                       {card.subtitle}
                     </p>
                   )}
                   {card.title && (
-                    <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
                       {card.title}
                     </h3>
                   )}
                   <div className="mt-4 flex items-center gap-2 text-sm text-[var(--color-accent)] tracking-wider uppercase opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                    <span>View</span>
+                    <span>{t("view")}</span>
                     <svg
                       width="14"
                       height="14"

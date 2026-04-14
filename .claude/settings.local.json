@@ -39,6 +39,12 @@
       "Bash(head -20 grep -n \"src.*image\\\\|Image.*src\\\\|item\\\\.image\\\\|product\\\\.image\" D:/GitHub/DRXP_store/src/components/shop/ProductCard.tsx)",
       "Bash(npm --version)",
       "Bash(npm i:*)",
+      "Bash(npm ls:*)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('src/messages/en.json','utf8'\\)\\); console.log\\('en.json OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('src/messages/ru.json','utf8'\\)\\); console.log\\('ru.json OK'\\)\")",
+      "Bash(node -e ':*)",
+      "Bash(rmdir \"D:/GitHub/DRXP_store/src/app/[locale]/\\(content\\)/about\")",
+      "Bash(rmdir \"D:/GitHub/DRXP_store/src/app/[locale]/\\(content\\)/contact\")",
       "mcp__Claude_Preview__preview_start"
     ]
   }

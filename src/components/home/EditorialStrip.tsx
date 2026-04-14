@@ -19,13 +19,13 @@ interface Props {
 export function EditorialStrip({ blocks = [] }: Props) {
   if (blocks.length === 0) return null;
   return (
-    <section className="py-32 px-6 md:px-10 space-y-32">
+    <section className="py-16 md:py-32 px-6 md:px-10 space-y-16 md:space-y-32">
       {blocks.map((block, idx) => {
         const reverse = idx % 2 === 1;
         return (
           <div
             key={idx}
-            className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center"
+            className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 items-center"
           >
             <AnimatedSection
               direction={reverse ? "left" : "left"}
@@ -35,7 +35,7 @@ export function EditorialStrip({ blocks = [] }: Props) {
               }`}
             >
               {block.quote && (
-                <blockquote className="font-serif text-2xl md:text-4xl leading-relaxed text-white/80">
+                <blockquote className="font-serif text-xl sm:text-2xl md:text-4xl leading-relaxed text-white/80">
                   {block.quote}
                 </blockquote>
               )}
@@ -63,7 +63,7 @@ export function EditorialStrip({ blocks = [] }: Props) {
               direction="right"
               className={`md:col-span-3 ${reverse ? "order-1 md:order-2" : ""}`}
             >
-              <div className="aspect-[2/3] bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 relative overflow-hidden">
+              <div className="aspect-[16/10] sm:aspect-[4/5] md:aspect-[2/3] bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 relative overflow-hidden">
                 {block.image && (
                   <Image
                     src={block.image}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import type { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export function ProductCard({ product }: Props) {
+  const t = useTranslations("productCard");
   const toggleItem = useWishlistStore((s) => s.toggleItem);
   const isInWishlist = useWishlistStore((s) => s.isInWishlist(product.id));
   const addItem = useCartStore((s) => s.addItem);
@@ -89,14 +91,14 @@ export function ProductCard({ product }: Props) {
             disabled={!firstVariantInStock}
             className="w-full text-[10px] tracking-[0.2em] uppercase text-white py-2 border border-white/30 hover:bg-white hover:text-black transition-colors disabled:opacity-40"
           >
-            {firstVariantInStock ? "Quick Add" : "Sold Out"}
+            {firstVariantInStock ? t("quickAdd") : t("soldOut")}
           </button>
         </motion.div>
 
         {/* Sale badge */}
         {product.comparePrice && (
           <span className="absolute top-3 left-3 text-[10px] tracking-widest uppercase bg-white text-black px-2 py-0.5">
-            Sale
+            {t("sale")}
           </span>
         )}
       </div>

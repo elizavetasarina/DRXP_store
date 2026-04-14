@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getJournalPostBySlug, getAllJournalPosts } from "@/sanity/lib/queries";
@@ -95,36 +96,37 @@ export async function generateStaticParams() {
 
 export default async function JournalArticlePage({ params }: Props) {
   const { slug, locale } = await params;
+  const t = await getTranslations("journal");
   const post: JournalPost | null = await getJournalPostBySlug(slug, locale);
 
   if (!post) {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center pt-32">
-        <p className="text-sm tracking-widest uppercase text-white/40">Article not found</p>
+        <p className="text-sm tracking-widest uppercase text-white/40">{t("notFound")}</p>
       </main>
     );
   }
 
   return (
-    <main className="pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
+    <main className="pt-24 md:pt-32 px-6 md:px-10 min-h-screen bg-black text-white">
       <div className="max-w-3xl mx-auto pb-20">
         <AnimatedSection>
           <Link
             href="/journal"
-            className="inline-flex items-center gap-2 text-xs tracking-widest text-white/50 hover:text-white transition-colors mb-10"
+            className="inline-flex items-center gap-2 text-[10px] md:text-xs tracking-widest text-white/50 hover:text-white transition-colors mb-8 md:mb-10"
           >
-            &larr; BACK TO JOURNAL
+            &larr; {t("backToJournal")}
           </Link>
         </AnimatedSection>
 
         <AnimatedSection>
-          <div className="mb-10">
-            <div className="flex items-center gap-4 text-xs tracking-widest text-white/40 mb-6">
+          <div className="mb-8 md:mb-10">
+            <div className="flex items-center gap-4 text-[10px] md:text-xs tracking-widest text-white/40 mb-4 md:mb-6">
               {post.publishedAt && (
                 <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
               )}
             </div>
-            <h1 className="text-4xl md:text-5xl font-light tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight leading-tight">
               {post.title}
             </h1>
           </div>
@@ -132,7 +134,7 @@ export default async function JournalArticlePage({ params }: Props) {
 
         {/* Cover image */}
         <AnimatedSection>
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 mb-14">
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 mb-10 md:mb-14">
             {post.coverImage?.url && (
               <Image
                 src={post.coverImage.url}
@@ -149,7 +151,7 @@ export default async function JournalArticlePage({ params }: Props) {
         {/* Excerpt */}
         {post.excerpt && (
           <AnimatedSection>
-            <p className="text-lg leading-relaxed text-white/60 mb-10 italic">{post.excerpt}</p>
+            <p className="text-base md:text-lg leading-relaxed text-white/60 mb-8 md:mb-10 italic">{post.excerpt}</p>
           </AnimatedSection>
         )}
 

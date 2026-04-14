@@ -10,9 +10,7 @@ const NAV_KEYS = [
   { key: "home", href: "/" },
   { key: "shop", href: "/shop" },
   { key: "lookbook", href: "/lookbook" },
-  { key: "about", href: "/about" },
   { key: "journal", href: "/journal" },
-  { key: "contact", href: "/contact" },
 ] as const;
 
 const SOCIALS = [

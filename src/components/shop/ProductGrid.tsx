@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { Product } from "@/types/product";
 import { ProductCard } from "./ProductCard";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -9,11 +10,13 @@ interface Props {
 }
 
 export function ProductGrid({ products }: Props) {
+  const t = useTranslations("shop");
+
   if (products.length === 0) {
     return (
       <div className="flex items-center justify-center py-32">
         <p className="text-sm tracking-widest uppercase text-white/40">
-          No products found
+          {t("noProducts")}
         </p>
       </div>
     );

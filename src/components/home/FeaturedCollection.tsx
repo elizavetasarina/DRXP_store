@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getFeaturedProducts } from "@/sanity/lib/queries";
@@ -15,35 +15,36 @@ interface SanityFeatured {
 
 export async function FeaturedCollection() {
   const locale = await getLocale();
+  const t = await getTranslations("home");
   const featured: SanityFeatured[] = await getFeaturedProducts(locale);
 
   if (!featured || featured.length === 0) return null;
 
   return (
-    <section className="py-32 px-6 md:px-10">
-      <AnimatedSection className="mb-16">
-        <h2 className="text-6xl md:text-8xl font-bold text-white/5 leading-none">
-          FEATURED
+    <section className="py-16 md:py-32 px-6 md:px-10">
+      <AnimatedSection className="mb-10 md:mb-16">
+        <h2 className="text-5xl sm:text-6xl md:text-8xl font-bold text-white/5 leading-none">
+          {t("featured")}
         </h2>
-        <p className="mt-4 text-2xl font-light text-white/80">
-          Selected Pieces
+        <p className="mt-3 md:mt-4 text-lg md:text-2xl font-light text-white/80">
+          {t("selectedPieces")}
         </p>
       </AnimatedSection>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
         {featured.map((product, i) => {
           const cover = product.images?.[0];
           return (
             <AnimatedSection
               key={product._id}
               delay={i * 0.15}
-              className={i === 0 ? "md:col-span-2 md:row-span-2" : ""}
+              className={i === 0 ? "col-span-2 md:col-span-2 md:row-span-2" : ""}
             >
               <Link
                 href={`/product/${product.slug}`}
                 className="group block"
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+                <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
                   {cover?.url && (
                     <Image
                       src={cover.url}

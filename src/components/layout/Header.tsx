@@ -8,10 +8,12 @@ import { Link } from "@/i18n/navigation";
 import { useUIStore } from "@/store/uiStore";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
+import { SearchModal } from "./SearchModal";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { data: session } = useSession();
   const { toggleMenu, openCart } = useUIStore();
   const t = useTranslations("header");
@@ -26,66 +28,79 @@ export function Header() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-black/80 backdrop-blur-md border-b border-white/10"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="flex items-center justify-between px-6 md:px-10 py-4">
-        {/* Left — Menu */}
-        <button
-          onClick={toggleMenu}
-          className="flex flex-col gap-1.5 w-8 group"
-          aria-label={t("openMenu")}
-        >
-          <span className="block h-px w-6 bg-white transition-all duration-300 group-hover:w-8" />
-          <span className="block h-px w-8 bg-white transition-all duration-300 group-hover:w-6" />
-        </button>
-
-        {/* Center — Logo */}
-        <Link
-          href="/"
-          className="absolute left-1/2 -translate-x-1/2 text-white text-xl md:text-2xl font-bold tracking-[0.3em] uppercase"
-        >
-          DRXP
-        </Link>
-
-        {/* Right — Icons */}
-        <div className="flex items-center gap-5">
-          <button aria-label={t("search")} className="text-white/70 hover:text-white transition-colors">
-            <Search className="w-5 h-5" strokeWidth={1.5} />
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-md border-b border-white/10"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-3 md:py-4">
+          {/* Left — Menu */}
+          <button
+            onClick={toggleMenu}
+            className="flex flex-col gap-1.5 w-7 md:w-8 group shrink-0"
+            aria-label={t("openMenu")}
+          >
+            <span className="block h-px w-5 md:w-6 bg-white transition-all duration-300 group-hover:w-8" />
+            <span className="block h-px w-7 md:w-8 bg-white transition-all duration-300 group-hover:w-6" />
           </button>
-          {mounted && (
-            session ? (
-              <Link href="/account" aria-label={t("myAccount")} className="text-white/70 hover:text-white transition-colors">
-                <User className="w-5 h-5" strokeWidth={1.5} />
-              </Link>
-            ) : (
-              <Link href="/login" className="text-xs tracking-[0.15em] text-white/70 hover:text-white transition-colors">
-                {t("signIn")}
-              </Link>
-            )
-          )}
-          <Link href="/account/wishlist" className="relative text-white/70 hover:text-white transition-colors">
-            <Heart className="w-5 h-5" strokeWidth={1.5} />
-            {mounted && wishlistCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
-                {wishlistCount}
-              </span>
-            )}
+
+          {/* Center — Logo */}
+          <Link
+            href="/"
+            className="absolute left-1/2 -translate-x-1/2 text-white text-lg sm:text-xl md:text-2xl font-bold tracking-[0.3em] uppercase"
+          >
+            DRXP
           </Link>
-          <button onClick={openCart} className="relative text-white/70 hover:text-white transition-colors" aria-label={t("openCart")}>
-            <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-            {mounted && cartItems > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
-                {cartItems}
-              </span>
+
+          {/* Right — Icons */}
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label={t("search")}
+              className="text-white/70 hover:text-white transition-colors"
+            >
+              <Search className="w-5 h-5" strokeWidth={1.5} />
+            </button>
+            {mounted && (
+              session ? (
+                <Link href="/account" aria-label={t("myAccount")} className="text-white/70 hover:text-white transition-colors">
+                  <User className="w-5 h-5" strokeWidth={1.5} />
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login" aria-label={t("signIn")} className="md:hidden text-white/70 hover:text-white transition-colors">
+                    <User className="w-5 h-5" strokeWidth={1.5} />
+                  </Link>
+                  <Link href="/login" className="hidden md:inline-block text-xs tracking-[0.15em] text-white/70 hover:text-white transition-colors">
+                    {t("signIn")}
+                  </Link>
+                </>
+              )
             )}
-          </button>
+            <Link href="/account/wishlist" aria-label="Wishlist" className="relative text-white/70 hover:text-white transition-colors">
+              <Heart className="w-5 h-5" strokeWidth={1.5} />
+              {mounted && wishlistCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
+            <button onClick={openCart} className="relative text-white/70 hover:text-white transition-colors" aria-label={t("openCart")}>
+              <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
+              {mounted && cartItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black text-[10px] rounded-full flex items-center justify-center font-medium">
+                  {cartItems}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
   );
 }

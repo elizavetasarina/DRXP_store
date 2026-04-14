@@ -24,12 +24,8 @@ export function Footer() {
   ] as const;
 
   const infoLinks = [
-    { labelKey: "about", href: "/about" },
     { labelKey: "lookbook", href: "/lookbook" },
     { labelKey: "journal", href: "/journal" },
-    { labelKey: "sizeGuide", href: "/size-guide" },
-    { labelKey: "shipping", href: "/shipping" },
-    { labelKey: "returns", href: "/returns" },
   ] as const;
 
   const socialLinks = [
@@ -40,12 +36,12 @@ export function Footer() {
 
   return (
     <footer className="bg-neutral-950 border-t border-white/5">
-      <div className="px-6 md:px-10 py-20">
-        <p className="text-6xl md:text-8xl font-bold tracking-[0.2em] text-white/5 select-none mb-16">
+      <div className="px-6 md:px-10 py-12 md:py-20">
+        <p className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-[0.2em] text-white/5 select-none mb-10 md:mb-16">
           DRXP
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-8">
           {/* Shop */}
           <div>
             <h4 className="text-xs tracking-widest uppercase text-white/60 mb-5">{t("shopHeading")}</h4>
@@ -107,18 +103,18 @@ export function Footer() {
             </p>
             <form
               onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
-              className="flex"
+              className="flex min-w-0"
             >
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t("emailPlaceholder")}
-                className="flex-1 bg-transparent border border-white/20 text-white text-xs tracking-wider px-3 py-2.5 placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors"
+                className="flex-1 min-w-0 bg-transparent border border-white/20 text-white text-xs tracking-wider px-3 py-2.5 placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors"
               />
               <button
                 type="submit"
-                className="bg-white text-black text-xs tracking-widest uppercase px-4 py-2.5 hover:bg-white/90 transition-colors"
+                className="shrink-0 bg-white text-black text-xs tracking-widest uppercase px-3 md:px-4 py-2.5 hover:bg-white/90 transition-colors"
               >
                 {t("newsletterSubmit")}
               </button>
@@ -128,7 +124,7 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-t border-white/5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-6 md:px-10 py-5 border-t border-white/5">
         <p className="text-[10px] tracking-widest uppercase text-white/30">
           {t("copyright")}
         </p>

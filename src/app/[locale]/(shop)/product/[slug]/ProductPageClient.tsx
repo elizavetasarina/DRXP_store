@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
@@ -14,6 +17,7 @@ interface Props {
 }
 
 export function ProductPageClient({ product, relatedProducts }: Props) {
+  const t = useTranslations("product");
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
@@ -65,23 +69,24 @@ export function ProductPageClient({ product, relatedProducts }: Props) {
         {relatedProducts.length > 0 && (
           <div className="mt-24">
             <h2 className="text-xs tracking-[0.2em] uppercase text-white/40 mb-8">
-              Related
+              {t("related")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedProducts.map((p) => (
-                <a key={p.id} href={`/product/${p.slug}`} className="group block">
-                  <div className="aspect-[3/4] bg-neutral-900 mb-3 overflow-hidden">
+                <Link key={p.id} href={`/product/${p.slug}`} className="group block">
+                  <div className="relative aspect-[3/4] bg-neutral-900 mb-3 overflow-hidden">
                     {p.images[0]?.url && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={p.images[0].url}
                         alt={p.images[0].alt || p.name || ""}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 50vw, 25vw"
                       />
                     )}
                   </div>
                   <p className="text-xs tracking-wider truncate">{p.name}</p>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

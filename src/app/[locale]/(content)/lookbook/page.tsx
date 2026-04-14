@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -14,6 +14,7 @@ interface LookbookItem {
 
 export default async function LookbookPage() {
   const locale = await getLocale();
+  const t = await getTranslations("lookbook");
   const lookbooks: LookbookItem[] = await getAllLookbooks(locale);
 
   return (
@@ -27,7 +28,7 @@ export default async function LookbookPage() {
       </AnimatedSection>
 
       {lookbooks.length === 0 ? (
-        <p className="text-white/30 text-sm tracking-widest uppercase">No collections yet</p>
+        <p className="text-white/30 text-sm tracking-widest uppercase">{t("noCollections")}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {lookbooks.map((col, i) => {
@@ -54,7 +55,7 @@ export default async function LookbookPage() {
                       </span>
                       {col.images && (
                         <span className="mt-2 text-xs tracking-widest text-white/50 group-hover:text-white/80 transition-colors">
-                          {col.images.length} LOOKS
+                          {t("looks", { count: col.images.length })}
                         </span>
                       )}
                     </div>

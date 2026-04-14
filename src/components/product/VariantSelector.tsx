@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { ProductVariant } from "@/types/product";
 import { COLORS } from "@/lib/constants";
 
@@ -18,6 +19,7 @@ export function VariantSelector({
   selectedColor,
   onColorChange,
 }: Props) {
+  const t = useTranslations("variant");
   const availableSizes = [...new Set(variants.map((v) => v.size))];
   const availableColors = [...new Set(variants.map((v) => v.color).filter((c): c is string => !!c))];
 
@@ -33,7 +35,7 @@ export function VariantSelector({
       {/* Size */}
       <div>
         <span className="text-xs tracking-[0.2em] uppercase text-white/50 block mb-3">
-          Size
+          {t("size")}
         </span>
         <div className="flex flex-wrap gap-2">
           {availableSizes.map((size) => {
@@ -53,7 +55,7 @@ export function VariantSelector({
                 }`}
               >
                 {size}
-                {oos && <span className="sr-only"> (Out of stock)</span>}
+                {oos && <span className="sr-only"> ({t("outOfStock")})</span>}
               </button>
             );
           })}
@@ -64,7 +66,7 @@ export function VariantSelector({
       {availableColors.length > 1 && (
         <div>
           <span className="text-xs tracking-[0.2em] uppercase text-white/50 block mb-3">
-            Color{selectedColor ? ` — ${selectedColor}` : ""}
+            {t("color")}{selectedColor ? ` — ${selectedColor}` : ""}
           </span>
           <div className="flex gap-3">
             {availableColors.map((color) => (

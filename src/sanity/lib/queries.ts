@@ -200,6 +200,30 @@ export async function getJournalPostBySlug(slug: string, locale: string = "ru") 
   );
 }
 
+// ─── Search ──────────────────────────────────────────────────────────────────
+
+export async function searchProducts(query: string, locale: string = "ru") {
+  return client.fetch(
+    `
+    *[_type == "product" && isPublished == true && (
+      name[_key == $locale][0].value match $q ||
+      name[_key == "ru"][0].value match $q ||
+      description[_key == $locale][0].value match $q
+    )] [0...10] {
+      _id,
+      "name": ${i18n("name")},
+      "slug": slug.current,
+      price,
+      images[0...1]{
+        "url": asset.asset->url
+      }
+    }
+  `,
+    { q: `${query}*`, locale },
+    { next: { revalidate: 0 } }
+  );
+}
+
 // ─── Home page (singleton) ────────────────────────────────────────────────────
 
 export async function getHomePage(locale: string = "ru") {

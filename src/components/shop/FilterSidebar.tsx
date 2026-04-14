@@ -2,6 +2,7 @@
 
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CATEGORIES, SIZES } from "@/lib/constants";
 
 interface Props {
@@ -24,11 +25,13 @@ export function FilterSidebar({
   onClose,
   mobile,
 }: Props) {
+  const t = useTranslations("filters");
+
   return (
     <div className={mobile ? "p-6" : ""}>
       {mobile && (
         <div className="flex items-center justify-between mb-8">
-          <span className="text-xs tracking-[0.2em] uppercase">Filters</span>
+          <span className="text-xs tracking-[0.2em] uppercase">{t("title")}</span>
           <button onClick={onClose}>
             <X className="w-4 h-4" />
           </button>
@@ -39,7 +42,7 @@ export function FilterSidebar({
         {/* Categories */}
         <Accordion.Item value="categories" className="border-b border-white/10">
           <Accordion.Trigger className="flex w-full items-center justify-between py-4 text-xs tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors group">
-            Categories
+            {t("categories")}
             <ChevronDown className="w-3 h-3 transition-transform group-data-[state=open]:rotate-180" />
           </Accordion.Trigger>
           <Accordion.Content className="pb-4 space-y-2">
@@ -49,7 +52,7 @@ export function FilterSidebar({
                 !selectedCategory ? "text-white" : "text-white/40 hover:text-white/70"
               }`}
             >
-              All
+              {t("all")}
             </button>
             {CATEGORIES.map((cat) => (
               <button
@@ -68,7 +71,7 @@ export function FilterSidebar({
         {/* Size */}
         <Accordion.Item value="size" className="border-b border-white/10">
           <Accordion.Trigger className="flex w-full items-center justify-between py-4 text-xs tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors group">
-            Size
+            {t("size")}
             <ChevronDown className="w-3 h-3 transition-transform group-data-[state=open]:rotate-180" />
           </Accordion.Trigger>
           <Accordion.Content className="pb-4">
@@ -93,7 +96,7 @@ export function FilterSidebar({
         {/* Price */}
         <Accordion.Item value="price" className="border-b border-white/10">
           <Accordion.Trigger className="flex w-full items-center justify-between py-4 text-xs tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors group">
-            Price
+            {t("price")}
             <ChevronDown className="w-3 h-3 transition-transform group-data-[state=open]:rotate-180" />
           </Accordion.Trigger>
           <Accordion.Content className="pb-4">

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { Product, ProductVariant } from "@/types/product";
 import { useCartStore } from "@/store/cartStore";
 import { useUIStore } from "@/store/uiStore";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function AddToCart({ product, selectedVariant }: Props) {
+  const t = useTranslations("addToCart");
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useUIStore((s) => s.openCart);
   const toggleItem = useWishlistStore((s) => s.toggleItem);
@@ -53,7 +55,7 @@ export function AddToCart({ product, selectedVariant }: Props) {
           !selectedVariant ? "opacity-50 cursor-not-allowed" : "hover:bg-white/90 active:scale-[0.98]"
         } ${clicked ? "scale-[0.97]" : ""}`}
       >
-        {selectedVariant ? "Add to Cart" : "Select a Size"}
+        {selectedVariant ? t("addToCart") : t("selectSize")}
       </button>
 
       <button
@@ -61,7 +63,7 @@ export function AddToCart({ product, selectedVariant }: Props) {
         className="flex items-center justify-center gap-2 w-full py-2 text-xs tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors"
       >
         <Heart className={`w-3.5 h-3.5 ${isInWishlist ? "fill-white text-white" : ""}`} />
-        {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+        {isInWishlist ? t("removeFromWishlist") : t("addToWishlist")}
       </button>
     </div>
   );

@@ -32,12 +32,12 @@ export function ImageGallery({ images }: Props) {
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto">
           {images.map((img, i) => (
             <button
               key={img.id}
               onClick={() => setSelected(i)}
-              className={`relative w-16 h-20 overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 border transition-colors ${
+              className={`relative w-12 h-16 md:w-16 md:h-20 flex-shrink-0 overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800 border transition-colors ${
                 selected === i ? "border-white" : "border-transparent hover:border-white/30"
               }`}
             >
@@ -47,7 +47,7 @@ export function ImageGallery({ images }: Props) {
                   alt={img.alt || `View ${i + 1}`}
                   fill
                   className="object-cover"
-                  sizes="64px"
+                  sizes="(max-width: 768px) 48px, 64px"
                 />
               )}
             </button>

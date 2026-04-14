@@ -9,9 +9,7 @@
     "home": "HOME",
     "shop": "SHOP",
     "lookbook": "LOOKBOOK",
-    "about": "ABOUT",
     "journal": "JOURNAL",
-    "contact": "CONTACT",
     "closeMenu": "Close menu"
   },
   "header": {
@@ -39,21 +37,22 @@
     "pants": "Pants",
     "outerwear": "Outerwear",
     "accessories": "Accessories",
-    "about": "About",
     "lookbook": "Lookbook",
-    "journal": "Journal",
-    "sizeGuide": "Size Guide",
-    "shipping": "Shipping",
-    "returns": "Returns"
+    "journal": "Journal"
   },
   "home": {
     "marquee1": "NEW COLLECTION SS25 — AVAILABLE NOW — FREE SHIPPING OVER 10 000 ₽",
-    "marquee2": "DRXP — CONTEMPORARY STREETWEAR — SINCE 2024 — MOSCOW"
+    "marquee2": "DRXP — CONTEMPORARY STREETWEAR — SINCE 2024 — MOSCOW",
+    "featured": "FEATURED",
+    "selectedPieces": "Selected Pieces",
+    "craftedWithPrecision": "Crafted with precision",
+    "view": "View"
   },
   "shop": {
     "title": "SHOP",
     "filters": "Filters",
-    "productCount": "{count, plural, one {# product} other {# products}}"
+    "productCount": "{count, plural, one {# product} other {# products}}",
+    "noProducts": "No products found"
   },
   "cart": {
     "title": "CART",
@@ -181,6 +180,37 @@
     "removeFromWishlist": "Remove from Wishlist"
   },
   "product": {
-    "notFound": "Product not found"
+    "notFound": "Product not found",
+    "related": "Related"
+  },
+  "variant": {
+    "size": "Size",
+    "color": "Color",
+    "outOfStock": "Out of stock"
+  },
+  "sort": {
+    "newest": "Newest",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low",
+    "nameAZ": "Name A-Z"
+  },
+  "lookbook": {
+    "title": "LOOKBOOK",
+    "noCollections": "No collections yet",
+    "looks": "{count} LOOKS",
+    "backToLookbook": "BACK TO LOOKBOOK",
+    "lookNumber": "LOOK {number}",
+    "notFound": "Collection not found"
+  },
+  "journal": {
+    "title": "JOURNAL",
+    "noPosts": "No posts yet",
+    "backToJournal": "BACK TO JOURNAL",
+    "notFound": "Article not found"
+  },
+  "search": {
+    "placeholder": "Search products...",
+    "noResults": "No products found",
+    "close": "Close"
   }
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SplitText } from "@/components/shared/SplitText";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -25,12 +26,13 @@ export async function generateStaticParams() {
 
 export default async function LookbookCollectionPage({ params }: Props) {
   const { slug, locale } = await params;
+  const t = await getTranslations("lookbook");
   const collection: LookbookCollection | null = await getLookbookBySlug(slug, locale);
 
   if (!collection) {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center pt-32">
-        <p className="text-sm tracking-widest uppercase text-white/40">Collection not found</p>
+        <p className="text-sm tracking-widest uppercase text-white/40">{t("notFound")}</p>
       </main>
     );
   }
@@ -42,7 +44,7 @@ export default async function LookbookCollectionPage({ params }: Props) {
           href="/lookbook"
           className="inline-flex items-center gap-2 text-xs tracking-widest text-white/50 hover:text-white transition-colors mb-10"
         >
-          &larr; BACK TO LOOKBOOK
+          &larr; {t("backToLookbook")}
         </Link>
       </AnimatedSection>
 
@@ -69,7 +71,7 @@ export default async function LookbookCollectionPage({ params }: Props) {
               )}
               <div className="absolute inset-0 flex items-end p-4">
                 <span className="text-[10px] tracking-widest text-white/30">
-                  LOOK {String(i + 1).padStart(2, "0")}
+                  {t("lookNumber", { number: String(i + 1).padStart(2, "0") })}
                 </span>
               </div>
             </div>

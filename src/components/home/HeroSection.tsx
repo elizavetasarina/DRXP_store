@@ -15,7 +15,7 @@ interface Props {
 export function HeroSection({ bgImage, taglineOverride, ctaOverride }: Props = {}) {
   const t = useTranslations("hero");
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
+    <section className="relative h-[85vh] md:h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
       {bgImage && (
         <Image
           src={bgImage}
@@ -29,18 +29,18 @@ export function HeroSection({ bgImage, taglineOverride, ctaOverride }: Props = {
       {/* Background noise texture overlay */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMSIvPjwvc3ZnPg==')]" />
 
-      <div className="relative z-10 flex flex-col items-center gap-8">
+      <div className="relative z-10 flex flex-col items-center gap-6 md:gap-8 px-6">
         <SplitText
           text={t("brand")}
           as="h1"
-          className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-bold tracking-tight text-white leading-none"
+          className="text-[4rem] sm:text-[7rem] md:text-[12rem] lg:text-[16rem] font-bold tracking-tight text-white leading-none"
         />
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="text-sm tracking-[0.4em] text-white/50 uppercase"
+          className="text-xs md:text-sm tracking-[0.3em] md:tracking-[0.4em] text-white/50 uppercase text-center"
         >
           {taglineOverride ?? t("tagline")}
         </motion.p>
@@ -53,7 +53,7 @@ export function HeroSection({ bgImage, taglineOverride, ctaOverride }: Props = {
           <MagneticButton
             as="a"
             href="/shop"
-            className="inline-block border border-white/20 px-10 py-4 text-sm tracking-[0.2em] uppercase text-white transition-colors duration-300 hover:bg-white hover:text-black"
+            className="inline-block border border-white/20 px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm tracking-[0.2em] uppercase text-white transition-colors duration-300 hover:bg-white hover:text-black"
           >
             {ctaOverride ?? t("cta")}
           </MagneticButton>

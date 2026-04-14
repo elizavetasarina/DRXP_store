@@ -4,10 +4,8 @@ export const BRAND_NAME = "DRXP";
 
 export const NAV_LINKS = [
   { label: "Shop", href: "/shop" },
-  { label: "Collections", href: "/collections" },
   { label: "Lookbook", href: "/lookbook" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Journal", href: "/journal" },
 ] as const;
 
 export const CATEGORIES = [

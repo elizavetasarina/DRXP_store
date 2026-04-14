@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from "next-intl";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -59,17 +60,36 @@ interface Props {
 }
 
 export function ParallaxShowcase({ images = [] }: Props) {
+  const t = useTranslations("home");
+
   return (
-    <section className="py-32 relative overflow-hidden min-h-[80vh]">
+    <section className="py-16 md:py-32 relative overflow-hidden">
       {/* Ghost text behind */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <span className="text-[12rem] md:text-[20rem] font-bold text-white/[0.02] leading-none">
+        <span className="text-[5rem] sm:text-[8rem] md:text-[20rem] font-bold text-white/[0.02] leading-none">
           DRXP
         </span>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-        <div className="relative h-[70vh]">
+        {/* Mobile: compact grid (no parallax to avoid huge tiles) */}
+        <div className="grid grid-cols-2 gap-3 md:hidden">
+          {images.slice(0, 3).map((img, i) => (
+            <div
+              key={i}
+              className={`relative aspect-[3/4] bg-gradient-to-br from-neutral-900 to-neutral-800 overflow-hidden ${
+                i === 0 ? "col-span-2 aspect-[16/10]" : ""
+              }`}
+            >
+              {img && (
+                <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 33vw" />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: absolute positioned parallax */}
+        <div className="relative h-[70vh] hidden md:block">
           <ParallaxBlock
             speed={0.2}
             className="absolute left-0 top-[5%] w-[45%] h-[60%]"
@@ -89,9 +109,9 @@ export function ParallaxShowcase({ images = [] }: Props) {
       </div>
 
       {/* Section label */}
-      <AnimatedSection className="mt-16 text-center">
+      <AnimatedSection className="mt-10 md:mt-16 text-center">
         <p className="text-xs tracking-[0.4em] text-white/20 uppercase">
-          Crafted with precision
+          {t("craftedWithPrecision")}
         </p>
       </AnimatedSection>
     </section>
