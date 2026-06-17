@@ -31,39 +31,65 @@ export async function FeaturedCollection() {
         </p>
       </AnimatedSection>
 
+      {/* First product — full-width landscape hero */}
+      {featured[0] && (() => {
+        const product = featured[0];
+        const cover = product.images?.[0];
+        return (
+          <AnimatedSection className="mb-3 md:mb-6">
+            <Link href={`/product/${product.slug}`} className="group block">
+              <div className="relative aspect-[16/7] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+                {cover?.url && (
+                  <Image
+                    src={cover.url}
+                    alt={cover.alt || product.name || ""}
+                    fill
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="100vw"
+                    priority
+                  />
+                )}
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                  <div className="flex items-end justify-between">
+                    <p className="text-base md:text-xl tracking-wider text-white/80 uppercase">
+                      {product.name}
+                    </p>
+                    <p className="text-sm md:text-base text-white/50">
+                      {formatPrice(product.price)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </AnimatedSection>
+        );
+      })()}
+
+      {/* Remaining products — equal portrait grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-        {featured.map((product, i) => {
+        {featured.slice(1).map((product, i) => {
           const cover = product.images?.[0];
           return (
-            <AnimatedSection
-              key={product._id}
-              delay={i * 0.15}
-              className={i === 0 ? "col-span-2 md:col-span-2 md:row-span-2" : ""}
-            >
-              <Link
-                href={`/product/${product.slug}`}
-                className="group block"
-              >
-                <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+            <AnimatedSection key={product._id} delay={i * 0.1}>
+              <Link href={`/product/${product.slug}`} className="group block">
+                <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
                   {cover?.url && (
                     <Image
                       src={cover.url}
                       alt={cover.alt || product.name || ""}
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 50vw, 33vw"
                     />
                   )}
                   <div className="absolute inset-0 bg-white/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                     <div className="flex items-end justify-between">
-                      <div>
-                        <p className="text-sm tracking-wider text-white/60 uppercase">
-                          {product.name}
-                        </p>
-                      </div>
-                      <p className="text-sm text-white/40">
+                      <p className="text-xs md:text-sm tracking-wider text-white/60 uppercase">
+                        {product.name}
+                      </p>
+                      <p className="text-xs md:text-sm text-white/40">
                         {formatPrice(product.price)}
                       </p>
                     </div>
