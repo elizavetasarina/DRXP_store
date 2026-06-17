@@ -37,7 +37,7 @@ export default async function JournalPage() {
           {/* Featured post */}
           <AnimatedSection>
             <Link href={`/journal/${featured.slug}`} className="group block mb-12 md:mb-20">
-              <div className="relative aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+              <div className="relative h-[100svh] overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
                 {featured.coverImage?.url && (
                   <Image
                     src={featured.coverImage.url}
