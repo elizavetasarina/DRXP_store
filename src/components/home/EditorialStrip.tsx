@@ -18,24 +18,27 @@ interface Props {
 
 export function EditorialStrip({ blocks = [] }: Props) {
   if (blocks.length === 0) return null;
+
   return (
-    <section className="py-16 md:py-32 px-6 md:px-10 space-y-16 md:space-y-32">
+    <section>
       {blocks.map((block, idx) => {
-        const reverse = idx % 2 === 1;
+        const imageLeft = idx % 2 === 1;
+
         return (
           <div
             key={idx}
-            className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 items-center"
+            className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-64px)]"
           >
+            {/* Text side */}
             <AnimatedSection
-              direction={reverse ? "left" : "left"}
-              delay={reverse ? 0.1 : 0}
-              className={`md:col-span-2 flex flex-col justify-center ${
-                reverse ? "order-2 md:order-1" : ""
+              direction="left"
+              delay={0}
+              className={`flex flex-col justify-center px-8 md:px-16 py-16 md:py-0 w-full md:w-2/5 bg-black ${
+                imageLeft ? "md:order-2" : "md:order-1"
               }`}
             >
               {block.quote && (
-                <blockquote className="font-serif text-xl sm:text-2xl md:text-4xl leading-relaxed text-white/80">
+                <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl xl:text-4xl leading-relaxed text-white/80">
                   {block.quote}
                 </blockquote>
               )}
@@ -59,11 +62,14 @@ export function EditorialStrip({ blocks = [] }: Props) {
               )}
             </AnimatedSection>
 
+            {/* Image side */}
             <AnimatedSection
               direction="right"
-              className={`md:col-span-3 ${reverse ? "order-1 md:order-2" : ""}`}
+              className={`relative w-full md:w-3/5 h-[60vw] md:h-full ${
+                imageLeft ? "md:order-1" : "md:order-2"
+              }`}
             >
-              <div className="aspect-[16/10] sm:aspect-[4/5] md:aspect-[2/3] bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 relative overflow-hidden">
+              <div className="relative w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 overflow-hidden">
                 {block.image && (
                   <Image
                     src={block.image}
