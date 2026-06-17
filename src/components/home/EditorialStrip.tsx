@@ -20,7 +20,7 @@ export function EditorialStrip({ blocks = [] }: Props) {
   if (blocks.length === 0) return null;
 
   return (
-    <section>
+    <section className="py-12 md:py-20 px-6 md:px-10">
       {blocks.map((block, idx) => {
         const imageLeft = idx % 2 === 1;
 
